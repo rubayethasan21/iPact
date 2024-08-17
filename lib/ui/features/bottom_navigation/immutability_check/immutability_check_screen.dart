@@ -70,8 +70,83 @@ class ImmutabilityCheckScreenState extends State<ImmutabilityCheckScreen> {
   }
 
 
+  Future<Map<String, String>?> _readFileHashFromTangle(
+      String fileHash) async {
 
-  Future<Map<String, String>> _readFileHashFromTangle(
+    final receivedText;
+    if (user.userPublicAddress == collaborations.senderIOTAAddress) {
+      receivedText = await api.readOutgoingTransactions(
+          walletInfo: WalletInfo(
+            alias: user.userName.toString(),
+            mnemonic: '',
+            strongholdPassword: '',
+            strongholdFilepath: iPactWalletFilePathValue.toString(),
+            lastAddress: '',
+          ));
+    } else {
+
+      receivedText = await api.readIncomingTransactions(
+          walletInfo: WalletInfo(
+            alias: user.userName.toString(),
+            mnemonic: '',
+            strongholdPassword: '',
+            strongholdFilepath: iPactWalletFilePathValue.toString(),
+            lastAddress: '',
+          ));
+
+    }
+    //print('receivedText');
+    //print(receivedText);
+
+    // Parse the JSON string
+    List<dynamic> jsonList = jsonDecode(receivedText);
+    List<Transaction> transactions =
+    jsonList.map((json) => Transaction.fromJson(json)).toList();
+
+    // Filter and convert the List<Transaction> to List<Map<String, String>>
+    List<Map<String, String>> filteredTransactions = transactions
+        .map((transaction) {
+      try {
+        Map<String, dynamic> metadata = jsonDecode(transaction.metadata);
+
+        // Filter transactions during the mapping
+        if (metadata['a'] == 2 &&
+            (metadata['d'] as List<dynamic>)
+                .contains(fileHash) &&
+            metadata['d'].contains(fileHash)) {
+          print('metadata');
+          print(metadata);
+          //print('metadata d');
+          //print(metadata['d']);
+          return {
+            'transactionId': transaction.transactionId,
+            'collaborationId': metadata['b'].toString(),
+            'fileId': metadata['c'].toString(),
+            'fileHash': metadata['d'].toString(),
+          };
+        }
+      } catch (e) {
+        print('Error parsing metadata: $e');
+      }
+      return null;
+    })
+        .where((transaction) => transaction != null)
+        .cast<Map<String, String>>()
+        .toList();
+
+    // Check if any filtered transaction exists
+    if (filteredTransactions.isNotEmpty) {
+      print('Found transaction: ${filteredTransactions.first}');
+      return filteredTransactions.first;
+    } else {
+      print(
+          'Transaction with file hash $fileHash not found.');
+      return null;
+    }
+  }
+
+
+  Future<Map<String, String>> _readFileHashFromTangleOld(
       String fileHash) async {
 
     print('user.userPublicAddress');
@@ -175,16 +250,17 @@ class ImmutabilityCheckScreenState extends State<ImmutabilityCheckScreen> {
       iPactWalletFilePathValue = await iPactWalletFilePath();
       var fileHashTransaction = await _readFileHashFromTangle(fileHash.toString());
 
-      if (fileHashTransaction.isNotEmpty && fileHashTransaction['fileHash'] != null){
-        var savedFileHash= fileHashTransaction['fileHash'];
+      if (fileHashTransaction!.isNotEmpty && fileHashTransaction['fileHash'] != null){
+        var savedFilesHash= fileHashTransaction['fileHash'];
         print('fileHash.toString()');
         print(fileHash.toString());
 
-        print('savedFileHash');
-        print(savedFileHash);
-        if(fileHash.toString() == savedFileHash){
+        print('savedFilesHash');
+        print(savedFilesHash);
+        if (savedFilesHash!.contains(fileHash.toString())) {
           return true;
         }
+
       }
     }catch(e){
       print('something went wrong');
