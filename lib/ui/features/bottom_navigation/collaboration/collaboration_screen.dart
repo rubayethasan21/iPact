@@ -19,6 +19,7 @@ import 'package:unify_secret/utils/appbar_util.dart';
 import 'package:unify_secret/utils/common_utils.dart';
 import 'package:unify_secret/utils/common_widgets.dart';
 import 'package:unify_secret/utils/dimens.dart';
+import 'package:unify_secret/utils/text_util.dart';
 
 import 'add_invited_collaboration/add_invited_collaboration_screen.dart';
 
@@ -278,94 +279,148 @@ class CollaborationScreenState extends State<CollaborationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: context.theme.scaffoldBackgroundColor,
-        // appBar: appBarMain(title: "Collaboration".tr, context: context),
-        appBar: appBarMainWithRefresh(
-          title: "Collaboration".tr, context: context,
-          onTap: ()=> getData()
-        ),
-        body: Stack(
-          children: [
-            SafeArea(
-              child: Expanded(
-                child: RefreshIndicator(
-                    onRefresh: getData, child: _collaborationAllList()),
-              ),
+      backgroundColor: context.theme.scaffoldBackgroundColor,
+      appBar: appBarMain(
+        title: "Collaboration".tr, context: context,
+      ),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: RefreshIndicator(
+              onRefresh: getData,
+              child: _collaborationAllList(),
             ),
-            Positioned(
-              bottom: 110.0,
-              right: 16.0,
-              child: _customFloatingSpeedDial(),
-            )
-          ],
-        ));
+          ),
+          Positioned(
+            bottom: 110.0,
+            right: 16.0,
+            child: _customFloatingSpeedDial(),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _collaborationAllList() {
-    return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ValueListenableBuilder(
-          valueListenable: collaborationBox.listenable(),
-          builder: (context, box, child) {
-            List<Collaborations> allSentCollaboration = collaborationBox.values.toList();
+    return ValueListenableBuilder(
+      valueListenable: collaborationBox.listenable(),
+      builder: (context, box, child) {
+        List<Collaborations> allSentCollaboration = collaborationBox.values.toList();
 
-            return allSentCollaboration.isEmpty
-                ? EmptyViewWithLoading(
+        return CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: TextAutoMetropolis("Pull Down To Refresh", color: Colors.grey, fontSize: 8,textAlign: TextAlign.center),
+              ),
+            ),
+            if (allSentCollaboration.isEmpty)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Center(
+                  child: EmptyViewWithLoading(
                     isLoading: _controller.isLoading.value,
                     message: "You do not have any collaboration yet.".tr,
-                  )
-                : Expanded(
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: allSentCollaboration.length,
-                      // reverse: false,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final Collaborations collaboration = allSentCollaboration[index];
-                        String status = collaboration.collaborationAccepted.toString();
-                        String finalStatus;
-                        if (status == 'true') {
-                          finalStatus = 'accepted';
-                        } else {
-                          finalStatus = 'pending';
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: Dimens.paddingLarge),
-                          child: CollaborationItemView2(
-                            context: context,
-                            bgColor: context.theme.primaryColorLight,
-                            titleText: collaboration.collaborationName.toString(),
-                            status: finalStatus,
-                            onTap: () {
-                              debugPrint(
-                                  '------------------============== collaborationBox Item');
-                              debugPrint(collaborationBox.name);
-                              debugPrint(
-                                  collaboration.collaborationId.toString());
-                  
-                              Get.to(CollaborationDetailsScreen(
-                                  collaborationName: collaboration.collaborationName.toString(),
-                                  timeOrCollaborationId: collaboration.collaborationId.toString(),
-                                  collaborationStatus: finalStatus.toString(),
-                                  transactionId: collaboration.transactionId.toString(),
-                                  senderPublicKey: collaboration.senderPublicKey.toString(),
-                                  receiverPublicKey: collaboration.receiverPublicKey.toString(),
-                                  senderIotaPublicAddress: collaboration.senderIOTAAddress.toString(),
-                                  receiverIotaPublicAddress: collaboration.receiverIOTAAddress.toString()));
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                );
-          },
-        ),
-      ],
+                  ),
+                ),
+              )
+            else
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    final Collaborations collaboration = allSentCollaboration[index];
+                    String status = collaboration.collaborationAccepted.toString();
+                    String finalStatus = status == 'true' ? 'accepted' : 'pending';
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: Dimens.paddingLarge),
+                      child: CollaborationItemView2(
+                        context: context,
+                        bgColor: context.theme.primaryColorLight,
+                        titleText: collaboration.collaborationName.toString(),
+                        status: finalStatus,
+                        onTap: () {
+                          debugPrint('------------------============== collaborationBox Item');
+                          debugPrint(collaborationBox.name);
+                          debugPrint(collaboration.collaborationId.toString());
+
+                          Get.to(CollaborationDetailsScreen(
+                            collaborationName: collaboration.collaborationName.toString(),
+                            timeOrCollaborationId: collaboration.collaborationId.toString(),
+                            collaborationStatus: finalStatus.toString(),
+                            transactionId: collaboration.transactionId.toString(),
+                            senderPublicKey: collaboration.senderPublicKey.toString(),
+                            receiverPublicKey: collaboration.receiverPublicKey.toString(),
+                            senderIotaPublicAddress: collaboration.senderIOTAAddress.toString(),
+                            receiverIotaPublicAddress: collaboration.receiverIOTAAddress.toString(),
+                          ));
+                        },
+                      ),
+                    );
+                  },
+                  childCount: allSentCollaboration.length,
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
+
+/*  Widget _collaborationAllList() {
+    return ValueListenableBuilder(
+      valueListenable: collaborationBox.listenable(),
+      builder: (context, box, child) {
+        List<Collaborations> allSentCollaboration = collaborationBox.values.toList();
+        return allSentCollaboration.isEmpty
+            ? Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const TextAutoMetropolis("Pull Down To Refresh", color: Colors.grey, fontSize: 8),
+              EmptyViewWithLoading(
+                isLoading: _controller.isLoading.value,
+                message: "You do not have any collaboration yet.".tr,
+              ),
+            ],
+          ),
+        )
+            : ListView.builder(
+          padding: const EdgeInsets.symmetric(horizontal: Dimens.paddingLarge),
+          itemCount: allSentCollaboration.length,
+          itemBuilder: (context, index) {
+            final Collaborations collaboration = allSentCollaboration[index];
+            String status = collaboration.collaborationAccepted.toString();
+            String finalStatus = status == 'true' ? 'accepted' : 'pending';
+
+            return CollaborationItemView2(
+              context: context,
+              bgColor: context.theme.primaryColorLight,
+              titleText: collaboration.collaborationName.toString(),
+              status: finalStatus,
+              onTap: () {
+                debugPrint('------------------============== collaborationBox Item');
+                debugPrint(collaborationBox.name);
+                debugPrint(collaboration.collaborationId.toString());
+
+                Get.to(CollaborationDetailsScreen(
+                  collaborationName: collaboration.collaborationName.toString(),
+                  timeOrCollaborationId: collaboration.collaborationId.toString(),
+                  collaborationStatus: finalStatus.toString(),
+                  transactionId: collaboration.transactionId.toString(),
+                  senderPublicKey: collaboration.senderPublicKey.toString(),
+                  receiverPublicKey: collaboration.receiverPublicKey.toString(),
+                  senderIotaPublicAddress: collaboration.senderIOTAAddress.toString(),
+                  receiverIotaPublicAddress: collaboration.receiverIOTAAddress.toString(),
+                ));
+              },
+            );
+          },
+        );
+      },
+    );
+  }*/
 
   _customFloatingSpeedDial() {
     return SpeedDial(

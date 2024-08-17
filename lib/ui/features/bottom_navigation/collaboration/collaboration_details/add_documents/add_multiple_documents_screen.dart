@@ -14,6 +14,7 @@ import 'package:unify_secret/utils/appbar_util.dart';
 import 'package:unify_secret/utils/button_util.dart';
 import 'package:unify_secret/utils/common_utils.dart';
 import 'package:unify_secret/utils/dimens.dart';
+import 'package:unify_secret/utils/extentions.dart';
 import 'package:unify_secret/utils/spacers.dart';
 import 'package:unify_secret/utils/text_field_util.dart';
 import 'package:unify_secret/utils/text_util.dart';
@@ -32,6 +33,7 @@ class AddMultipleDocumentsScreenState extends State<AddMultipleDocumentsScreen> 
   String? documentName;
   List<File> selectedFiles = [];
   List<String> fileNames = [];
+  Set<String> filePathsSet = {}; // Set to track file paths
 
   late Box<Collaborations> collaborationBox;
   late Box<Documents> documentsBox;
@@ -47,6 +49,59 @@ class AddMultipleDocumentsScreenState extends State<AddMultipleDocumentsScreen> 
   void dispose() {
     hideKeyboard();
     super.dispose();
+  }
+
+  void _showFileAlreadySelectedAlert(String fileName) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('File Already Selected', style: TextStyle(color:context.theme.secondaryHeaderColor)),
+          content: Text('The file "$fileName" has already been selected.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _selectFiles() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
+
+    if (result != null) {
+      for (var file in result.files) {
+        File newFile = File(file.path!);
+        String fileName = file.name;
+        String filePath = newFile.path;
+
+        // if (filePathsSet.contains(filePath))
+        if (selectedFiles.any((f) => f.name == newFile.name)) {
+          _showFileAlreadySelectedAlert(fileName);
+        } else {
+          setState(() {
+            selectedFiles.add(newFile);
+            fileNames.add(fileName);
+            filePathsSet.add(filePath);
+          });
+        }
+      }
+    } else {
+      print("File picker was canceled.");
+    }
+  }
+
+  void _removeFile(int index) {
+    setState(() {
+      filePathsSet.remove(selectedFiles[index].path); // Remove the path from the set
+      selectedFiles.removeAt(index);
+      fileNames.removeAt(index);
+    });
   }
 
   @override
@@ -73,8 +128,7 @@ class AddMultipleDocumentsScreenState extends State<AddMultipleDocumentsScreen> 
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            TextAutoMetropolis("File Stack Name".tr,
-                                fontSize: Dimens.fontSizeRegular),
+                            TextAutoMetropolis("File Stack Name".tr, fontSize: Dimens.fontSizeRegular),
                             vSpacer5(),
                             TextFieldView(
                               controller: _controller.collaborationNameTextController,
@@ -93,22 +147,33 @@ class AddMultipleDocumentsScreenState extends State<AddMultipleDocumentsScreen> 
                           ? Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: selectedFiles.map((file) {
-                          int index = selectedFiles.indexOf(file);
-                          return InkWell(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const TextAutoMetropolis('Selected File: ', fontSize: 14,),
-                                TextAutoPoppins(fileNames[index], maxLines: 10,),
-                              ],
-                            ),
-                            onTap: () {
-                              OpenFile.open(file.path);
-                            },
+                        children: List.generate(selectedFiles.length, (index) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Text('Selected File: ', style: TextStyle(fontSize: 14)),
+                                      Text(fileNames[index], maxLines: 10),
+                                    ],
+                                  ),
+                                  onTap: () {
+                                    OpenFile.open(selectedFiles[index].path);
+                                  },
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                  _removeFile(index);
+                                },
+                              ),
+                            ],
                           );
-                        }).toList(),
+                        }),
                       )
                           : const SizedBox(),
                       vSpacer30(),
@@ -118,22 +183,9 @@ class AddMultipleDocumentsScreenState extends State<AddMultipleDocumentsScreen> 
                           SizedBox(
                             width: Get.width / 2.5,
                             child: Obx(() => ButtonFillMainWhiteBg(
-                                title: "Select File".tr,
-                                isLoading: _controller.isLoading.value,
-                                onPress: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true);
-
-                                  if (result != null) {
-                                    setState(() {
-                                      for (var file in result.files) {
-                                        selectedFiles.add(File(file.path!));
-                                        fileNames.add(file.name);
-                                      }
-                                    });
-                                  } else {
-                                    // User canceled the picker
-                                  }
-                                }
+                              title: "Select File".tr,
+                              isLoading: _controller.isLoading.value,
+                              onPress: _selectFiles,
                             )),
                           ),
                         ],

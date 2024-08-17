@@ -21,6 +21,7 @@ import 'package:unify_secret/utils/dimens.dart';
 import 'package:unify_secret/utils/spacers.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
+import 'package:unify_secret/utils/text_util.dart';
 
 class CollaborationDetailsScreen extends StatefulWidget {
   final String? collaborationName;
@@ -76,7 +77,7 @@ class CollaborationDetailsScreenState extends State<CollaborationDetailsScreen> 
         title: Text(widget.collaborationName.toString()),
         actions: [
           IconButton(
-            icon: Icon(Icons.info_outline),
+            icon: const Icon(Icons.info_outline),
             onPressed: _showCollaborationInfo,
           ),
         ],
@@ -144,48 +145,88 @@ class CollaborationDetailsScreenState extends State<CollaborationDetailsScreen> 
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: Dimens.paddingLarge),
-                        child: DocumentsItemView(
-                          context: context,
-                          bgColor: context.theme.primaryColorLight,
-                          iconColor: document.documentShareStatus == true
-                              ? context.theme.primaryColorDark
-                              : context.theme.disabledColor,
-                          titleText: document.documentName ?? 'Unknown',
-                          onTap: () => Get.to(DocumentDetailsScreen(
-                            collaborationId: document.collaborationId,
-                            documentName: document.documentName,
-                            documentShareStatus: document.documentShareStatus,
-                            isFileEncrypted: document.isFileEncrypted,
-                            filePath: document.filePath,
-                            fileId: document.fileId,
-                            fileOriginalName: document.fileOriginalName,
-                            generateKeyFileForSymmetricCryptography: document
-                                .generateKeyFileForSymmetricCryptography,
-                            symmetricEncryptFile:
-                            document.symmetricEncryptFile,
-                            asymmetricEncryptFile:
-                            document.asymmetricEncryptFile,
-                            asymmetricDecryptFile:
-                            document.asymmetricDecryptFile,
-                            symmetricDecryptFile:
-                            document.symmetricDecryptFile,
-                            originalFileHash: document.originalFileHash,
-                            symmetricEncryptFileHash:
-                            document.symmetricEncryptFileHash,
-                            ownDocument: document.ownDocument,
-                            originalFileHashTransactionId:
-                            document.originalFileHashTransactionId,
-                            symmetricEncryptFileHashTransactionId:
-                            document.symmetricEncryptFileHashTransactionId,
-                            asymmetricDecryptFileHash:
-                            document.asymmetricDecryptFileHash,
-                            asymmetricDecryptFileHashTransactionId:
-                            document.asymmetricDecryptFileHashTransactionId,
-                            isCryptographicKeyShared:
-                            document.isCryptographicKeyShared,
-                            cryptographicKeyTransactionId:
-                            document.cryptographicKeyTransactionId,
-                          )),
+                        child: Column(
+                          children: [
+                            // Text('${document.documentName}'),
+
+                            DocumentsItemView1(
+                              context: context,
+                              bgColor: context.theme.primaryColorLight,
+                              iconColor: document.documentShareStatus == true
+                                  ? context.theme.primaryColorDark
+                                  : context.theme.disabledColor,
+                              titleText: document.documentName ?? 'Unknown',
+                              onTap: () => Get.to(DocumentDetailsScreen(
+                                collaborationId: document.collaborationId,
+                                documentName: document.documentName,
+                                documentShareStatus: document.documentShareStatus,
+                                isFileEncrypted: document.isFileEncrypted,
+                                filePath: document.filePath,
+                                fileId: document.fileId,
+                                fileOriginalName: document.fileOriginalName,
+                                generateKeyFileForSymmetricCryptography: document.generateKeyFileForSymmetricCryptography,
+                                symmetricEncryptFile: document.symmetricEncryptFile,
+                                asymmetricEncryptFile: document.asymmetricEncryptFile,
+                                asymmetricDecryptFile: document.asymmetricDecryptFile,
+                                symmetricDecryptFile: document.symmetricDecryptFile,
+                                originalFileHash: document.originalFileHash,
+                                symmetricEncryptFileHash: document.symmetricEncryptFileHash,
+                                ownDocument: document.ownDocument,
+                                originalFileHashTransactionId: document.originalFileHashTransactionId,
+                                symmetricEncryptFileHashTransactionId: document.symmetricEncryptFileHashTransactionId,
+                                asymmetricDecryptFileHash: document.asymmetricDecryptFileHash,
+                                asymmetricDecryptFileHashTransactionId: document.asymmetricDecryptFileHashTransactionId,
+                                isCryptographicKeyShared: document.isCryptographicKeyShared,
+                                cryptographicKeyTransactionId: document.cryptographicKeyTransactionId,
+                              )),
+                              fileOriginalName: document.fileOriginalName, // Pass the fileOriginalName here
+                            )
+
+
+                            // DocumentsItemView(
+                            //   context: context,
+                            //   bgColor: context.theme.primaryColorLight,
+                            //   iconColor: document.documentShareStatus == true
+                            //       ? context.theme.primaryColorDark
+                            //       : context.theme.disabledColor,
+                            //   titleText: document.documentName ?? 'Unknown',
+                            //   onTap: () => Get.to(DocumentDetailsScreen(
+                            //     collaborationId: document.collaborationId,
+                            //     documentName: document.documentName,
+                            //     documentShareStatus: document.documentShareStatus,
+                            //     isFileEncrypted: document.isFileEncrypted,
+                            //     filePath: document.filePath,
+                            //     fileId: document.fileId,
+                            //     fileOriginalName: document.fileOriginalName,
+                            //     generateKeyFileForSymmetricCryptography: document
+                            //         .generateKeyFileForSymmetricCryptography,
+                            //     symmetricEncryptFile:
+                            //     document.symmetricEncryptFile,
+                            //     asymmetricEncryptFile:
+                            //     document.asymmetricEncryptFile,
+                            //     asymmetricDecryptFile:
+                            //     document.asymmetricDecryptFile,
+                            //     symmetricDecryptFile:
+                            //     document.symmetricDecryptFile,
+                            //     originalFileHash: document.originalFileHash,
+                            //     symmetricEncryptFileHash:
+                            //     document.symmetricEncryptFileHash,
+                            //     ownDocument: document.ownDocument,
+                            //     originalFileHashTransactionId:
+                            //     document.originalFileHashTransactionId,
+                            //     symmetricEncryptFileHashTransactionId:
+                            //     document.symmetricEncryptFileHashTransactionId,
+                            //     asymmetricDecryptFileHash:
+                            //     document.asymmetricDecryptFileHash,
+                            //     asymmetricDecryptFileHashTransactionId:
+                            //     document.asymmetricDecryptFileHashTransactionId,
+                            //     isCryptographicKeyShared:
+                            //     document.isCryptographicKeyShared,
+                            //     cryptographicKeyTransactionId:
+                            //     document.cryptographicKeyTransactionId,
+                            //   )),
+                            // ),
+                          ],
                         ),
                       );
                     },
@@ -212,32 +253,45 @@ class CollaborationDetailsScreenState extends State<CollaborationDetailsScreen> 
   }
 
   void _showCollaborationInfo() {
-    Get.dialog(AlertDialog(
-      title: Text('Collaboration Details'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('Name: ${widget.collaborationName}'),
-          Text('ID: ${widget.timeOrCollaborationId}'),
-          Text('Status: ${widget.collaborationStatus}'),
-          Text('Transaction ID: ${widget.transactionId}'),
-          Text('Sender Public Key: ${widget.senderPublicKey}'),
-          Text('Receiver Public Key: ${widget.receiverPublicKey}'),
-          Text('Sender IOTA Address: ${widget.senderIotaPublicAddress}'),
-          Text('Receiver IOTA Address: ${widget.receiverIotaPublicAddress}'),
+    Get.dialog(
+      AlertDialog(
+        title: Text(
+          'Collaboration Details',
+          style: TextStyle(color: context.theme.secondaryHeaderColor),
+        ),
+        content: Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.7, // Limit dialog height to 70% of screen height
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RichTextCustom(context: context, leftText: 'Name: ', rightText: '${widget.collaborationName}'),
+                RichTextCustom(context: context, leftText: 'ID: ', rightText: '${widget.timeOrCollaborationId}'),
+                RichTextCustom(context: context, leftText: 'Status: ', rightText: '${widget.collaborationStatus}'),
+                RichTextCustom(context: context, leftText: 'Transaction ID: ', rightText: '${widget.transactionId}'),
+                RichTextCustom(context: context, leftText: 'Sender Public Key: ', rightText: '${widget.senderPublicKey}'),
+                RichTextCustom(context: context, leftText: 'Receiver Public Key: ', rightText: '${widget.receiverPublicKey}'),
+                RichTextCustom(context: context, leftText: 'Sender IOTA Address: ', rightText: '${widget.senderIotaPublicAddress}'),
+                RichTextCustom(context: context, leftText: 'Receiver IOTA Address: ', rightText: '${widget.receiverIotaPublicAddress}'),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: const Text('Close'),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ],
       ),
-      actions: [
-        TextButton(
-          child: Text('Close'),
-          onPressed: () {
-            Get.back();
-          },
-        ),
-      ],
-    ));
+    );
   }
+
+
 
   SpeedDial _customFloatingSpeedDialForDocuments() {
     return SpeedDial(

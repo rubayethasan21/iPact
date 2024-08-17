@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -644,6 +646,117 @@ class DocumentsItemView extends StatelessWidget {
   }
 }
 
+
+class DocumentsItemView1 extends StatelessWidget {
+  const DocumentsItemView1({
+    super.key,
+    required this.context,
+    required this.titleText,
+    this.bgColor,
+    this.iconColor,
+    this.onTap,
+    this.fileOriginalName,
+  });
+
+  final BuildContext context;
+  final String titleText;
+  final Color? bgColor;
+  final Color? iconColor;
+  final VoidCallback? onTap;
+  final String? fileOriginalName;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    // Calculate the count of items in the fileOriginalName string
+    int itemCount = 0;
+    if (fileOriginalName != null && fileOriginalName!.isNotEmpty) {
+      try {
+        // Convert string to list and get the count
+        List<dynamic> list = jsonDecode(fileOriginalName!);
+        itemCount = list.length;
+      } catch (e) {
+        // Handle parsing error
+        print('Error parsing fileOriginalName: $e');
+      }
+    }
+
+    // Determine which icon to display
+    String iconPath = itemCount > 1
+        ? AssetConstants.icMultipleDocument
+        : AssetConstants.icDocument;
+
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        elevation: 4.0,
+        color: bgColor ?? theme.cardColor,
+        child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(0),
+          child: Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Column(
+                children: [
+                  ListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                    leading: SizedBox(
+                      width: 30, // Increased width for better visibility
+                      height: 30, // Increased height for better visibility
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          SvgPicture.asset(
+                            iconPath,
+                            color: context.theme.focusColor,height: 40,width: 40,
+                          ),
+                          if (itemCount > 0) // Show the count above the icon if multiple items
+                            Positioned(
+                              top: -2,
+                              right: -2,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: Colors.blueAccent,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  '$itemCount',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 10, // Adjust font size as needed
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    title: Text(
+                      titleText,
+                      style: const TextStyle(
+                        fontSize: 16, // Adjust font size as needed
+                      ),
+                    ),
+                    trailing: Icon(
+                      Icons.share,
+                      color: iconColor ?? context.theme.disabledColor,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
 /*class CollaborationItemView extends StatelessWidget {
   const CollaborationItemView(
       {super.key,
@@ -789,6 +902,8 @@ class ImmutabilityCheckItemView extends StatelessWidget {
   }
 }
 
+
+
 class CollaborationItemView2 extends StatelessWidget {
   const CollaborationItemView2(
       {super.key,
@@ -820,8 +935,13 @@ class CollaborationItemView2 extends StatelessWidget {
               children: [
                 Expanded(
                     flex: 1,
-                    child: ButtonOnlyCircleIcon(
-                        iconData: Icons.people_alt_outlined,
+                    // child: SvgPicture.asset(AssetConstants.icStartNewCollaboration,color: context.theme.primaryColorDark, height: 22, width: 22)),
+
+                    // child: ButtonOnlyCircleIcon(
+                    //     iconData: Icons.people_alt_outlined,
+                    //     iconColor: context.theme.primaryColorDark)),
+                    child: SvgCircleIcon(
+                        iconName: AssetConstants.icStartNewCollaboration,
                         iconColor: context.theme.primaryColorDark)),
                 Expanded(
                     flex: 4,
