@@ -39,6 +39,7 @@ class AssetConstants {
   static const icActionShow = "${basePathIcons}ic_action_show.svg";
   static const icBigProfile = "${basePathIcons}ic_big_profile.svg";
   static const icDocument = "${basePathIcons}ic_document.svg";
+  static const icMultipleDocument = "${basePathIcons}ic_multiple_document.svg";
   static const icEdit = "${basePathIcons}ic_edit.svg";
   static const icCameraBgRound = "${basePathIcons}ic_camera_bg_round.svg";
   static const icCamera = "${basePathIcons}ic_camera.svg";

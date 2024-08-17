@@ -97,3 +97,35 @@ class TextWithCopyIcon extends StatelessWidget {
         ));
   }
 }
+
+
+class RichTextCustom extends StatelessWidget {
+  const RichTextCustom(
+      {super.key,
+        required this.context,
+        required this.leftText,
+        required this.rightText});
+
+  final BuildContext? context;
+  final String? leftText;
+  final String? rightText;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: leftText,
+            style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          TextSpan(
+            text: rightText,
+            style: const TextStyle(color: Colors.black),
+          ),
+        ],
+      ),
+    );
+  }
+}

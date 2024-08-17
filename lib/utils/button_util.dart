@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:unify_secret/data/local/constants.dart';
 import 'package:unify_secret/utils/colors.dart';
 import 'common_utils.dart';
 import 'dimens.dart';
@@ -97,6 +98,33 @@ class ButtonOnlyCircleIcon extends StatelessWidget {
         )
             : const SizedBox(),
       ),
+    );
+  }
+}
+class SvgCircleIcon extends StatelessWidget {
+  const SvgCircleIcon(
+      {super.key,
+        this.visualDensity,
+        this.padding,
+        this.onTap,
+        this.iconName,
+        this.iconColor,
+        this.iconSize});
+
+  final VisualDensity? visualDensity;
+  final EdgeInsetsGeometry? padding;
+  final VoidCallback? onTap;
+  final String? iconName;
+  final Color? iconColor;
+  final double? iconSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: context.theme.dividerColor,
+      minRadius: 15,
+      maxRadius: 18,
+      child: SvgPicture.asset(iconName!,color: context.theme.primaryColorDark, height: 22, width: 22),
     );
   }
 }
