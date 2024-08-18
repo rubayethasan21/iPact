@@ -242,6 +242,7 @@ class RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
       },
       kIconSize: 23.0,
     );}
+
   _getDrawerView() {
     return Drawer(
       elevation: 0,
@@ -279,9 +280,9 @@ class RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
               const AppLogo(),
               vSpacer30(),
               const Divider(),
-              _drawerNavMenuItem("Settings".tr, Icons.settings,
-                  () => Get.to(() => const SettingsScreen())),
-              vSpacer10(),
+              // _drawerNavMenuItem("Settings".tr, Icons.settings,
+              //     () => Get.to(() => const SettingsScreen())),
+              // vSpacer10(),
               _drawerNavMenuItem("Privacy Policy".tr, Icons.privacy_tip,
                   () => Get.to(() => const PrivacyPolicyShowScreen())),
               vSpacer10(),

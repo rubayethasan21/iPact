@@ -1314,8 +1314,133 @@ Widget buildRow(String label, String value) {
   );
 }
 
-
 Widget buildUrlLauncher(String label, String url) {
+  // Clean the URL to remove any extra quotes
+  String cleanUrl = url.replaceAll('"', '').trim();
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: TextStyle(fontSize: 16.0), // Adjust as needed
+        ),
+        const SizedBox(height: 8.0),
+        GestureDetector(
+          onTap: () async {
+            final uri = Uri.parse("https://explorer.iota.org/shimmer-testnet/transaction/$cleanUrl");
+            print('Launching URL: ${uri.toString()}'); // Debug print
+
+            try {
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              } else {
+                print('Could not launch URL: ${uri.toString()}');
+              }
+            } catch (e) {
+              print('Error launching URL: $e');
+            }
+          },
+
+          child: Text(
+            cleanUrl,
+            style: const TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+              fontSize: 16.0, // Adjust as needed
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildUrlLauncher3(String label, String url) {
+  // Clean the URL to remove any extra quotes
+  String cleanUrl = url.replaceAll('"', '').trim();
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: TextStyle(fontSize: 16.0), // Adjust as needed
+        ),
+        const SizedBox(height: 8.0),
+        GestureDetector(
+          onTap: () async {
+            final uri = Uri.parse("https://explorer.iota.org/shimmer-testnet/transaction/$cleanUrl");
+            print('Launching URL: ${uri.toString()}'); // Debug print
+
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+            } else {
+              throw 'Could not launch $uri';
+            }
+          },
+          child: Text(
+            cleanUrl,
+            style: const TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+              fontSize: 16.0, // Adjust as needed
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildUrlLauncher2(String label, String url) {
+
+  print('urlPrint');
+  print(url);
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 4.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          label,
+          style: const TextStyle(fontSize: 16.0), // Adjust as needed
+        ),
+        const SizedBox(height: 8.0),
+        GestureDetector(
+          onTap: () async {
+            final encodedUrl = Uri.encodeComponent(url);
+            final uri = Uri.parse("https://explorer.iota.org/shimmer-testnet/transaction/$encodedUrl");
+            print('Launching URL: ${uri.toString()}'); // Debug print
+
+            if (await canLaunchUrl(uri)) {
+              await launchUrl(uri, mode: LaunchMode.externalApplication);
+            } else {
+              throw 'Could not launch $uri';
+            }
+          },
+          child: TextAutoPoppins(
+            url,
+            color: Colors.blue,
+            decoration: TextDecoration.underline,
+            maxLines: 100,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget buildUrlLauncher1(String label, String url) {
+  print(url);
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 4.0),
     child: Column(
@@ -1328,7 +1453,7 @@ Widget buildUrlLauncher(String label, String url) {
         const SizedBox(width: 8.0),
         GestureDetector(
           onTap: () async {
-            final uri = Uri.parse(url);
+            final uri = Uri.parse("https://explorer.iota.org/shimmer-testnet/transaction/$url");
             if (await canLaunchUrl(uri)) {
               await launchUrl(uri, mode: LaunchMode.externalApplication);
             } else {

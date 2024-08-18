@@ -1218,9 +1218,9 @@ class DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                               ),
                             )
                           : Obx(() => SizedBox(
-                                width: Get.width / 2.5,
+                                width: Get.width / 2.1,
                                 child: ButtonFillMainWhiteBg(
-                                  title: "Encrypt File".tr,
+                                  title: "Encrypt for Sending".tr,
                                   isLoading: _controller.isLoading.value,
                                   onPress: handleEncryptionProcess,
                                 ),

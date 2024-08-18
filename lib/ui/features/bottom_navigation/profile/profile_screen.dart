@@ -7,9 +7,7 @@ import 'package:unify_secret/data/local/constants.dart';
 import 'package:unify_secret/data/models/user.dart';
 import 'package:unify_secret/utils/appbar_util.dart';
 import 'package:unify_secret/utils/common_widgets.dart';
-import 'package:unify_secret/utils/dimens.dart';
 import 'package:unify_secret/utils/spacers.dart';
-import 'package:unify_secret/utils/text_util.dart';
 import 'profile_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
