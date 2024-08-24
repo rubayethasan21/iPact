@@ -65,6 +65,8 @@ dependencies:
   pdf: ^3.10.8
   dio: ^5.4.3+1
   archive: ^3.6.1
+  permission_handler: ^10.2.0
+  path: ^1.8.2
 
 dev_dependencies:
   flutter_test:
