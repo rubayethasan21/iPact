@@ -61,97 +61,93 @@ class LogInScreenState extends State<LogInScreen> {
         backgroundColor: context.theme.scaffoldBackgroundColor,
         appBar: appBarWithBack(title: "Login".tr, context: context),
         body: SafeArea(
-          child: Column(
-            children: [
-              SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: Dimens.paddingLarge),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      vSpacer30(),
-                      AuthTitleView(
-                          title: "Login with\nyour Profile".tr,
-                          subTitle: "".tr,
-                          subMaxLines: 30),
-                      vSpacer30(),
-                      // Create a fresh software profile running on Shimmer. This provides a Stronghold file and recovery phrase
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          child: ValueListenableBuilder(
-                            valueListenable: userBox.listenable(),
-                            builder: (context,box, child) {
-                              return box.isNotEmpty
-                                  ? ListView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: userBox.length,
-                                      reverse: true,
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) {
-                                        final user = userBox.getAt(index) as User;
-                                        // final users = box.getAt(index);
-                                        _controller.userNameATIndex.value = user.toString();
-                                        // final image.isSynchronized == false;
-                                        return GestureDetector(
-                                          onTap: (() {
-                                            // GlobalVariables.globalCurrentUser = user.userName.toString();
-                                            // _globalUserName = GlobalVariables.globalCurrentUser.toString();
-                                            //
-                                            // debugPrint('<<<<<_globalUserName>>>>> $_globalUserName');
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Dimens.paddingLarge),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  vSpacer30(),
+                  AuthTitleView(
+                      title: "Login with\nyour Profile".tr,
+                      subTitle: "".tr,
+                      subMaxLines: 30),
+                  vSpacer30(),
+                  // Create a fresh software profile running on Shimmer. This provides a Stronghold file and recovery phrase
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      child: ValueListenableBuilder(
+                        valueListenable: userBox.listenable(),
+                        builder: (context,box, child) {
+                          return box.isNotEmpty
+                              ? ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: userBox.length,
+                                  reverse: true,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    final user = userBox.getAt(index) as User;
+                                    // final users = box.getAt(index);
+                                    _controller.userNameATIndex.value = user.toString();
+                                    // final image.isSynchronized == false;
+                                    return GestureDetector(
+                                      onTap: (() {
+                                        // GlobalVariables.globalCurrentUser = user.userName.toString();
+                                        // _globalUserName = GlobalVariables.globalCurrentUser.toString();
+                                        //
+                                        // debugPrint('<<<<<_globalUserName>>>>> $_globalUserName');
 
-                                            debugPrint('------------------============== userPublicAddress');
-                                            debugPrint(userBox.name);
-                                            debugPrint(user.userName.toString());
-                                            debugPrint(user.userPin.toString());
-                                            debugPrint(user.userPublicAddress.toString());
+                                        debugPrint('------------------============== userPublicAddress');
+                                        debugPrint(userBox.name);
+                                        debugPrint(user.userName.toString());
+                                        debugPrint(user.userPin.toString());
+                                        debugPrint(user.userPublicAddress.toString());
 
-                                            Get.offAll(() => LoginWithPin(user: user));
-                                            // Get.offAll(() => LoginWithPin(userName: user.userName.toString(), user: user));
-                                            // Get.to(() => LoginWithPin(userName:_globalUserName));
-                                          }),
-                                          child: SizedBox(
-                                            height: 200,
-                                            width: 200,
-                                            child: CircleAvatar(
-                                              radius: 0,
-                                              backgroundColor:
-                                                  context.theme.dividerColor,
-                                              child: TextAutoMetropolis(
-                                                  user.userName.toString()),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  : Column(
-                                      children: [
-                                        vSpacer100(),
-                                        Center(
-                                          child: Align(
-                                              alignment: Alignment.center,
-                                              child: TextAutoSpan(
-                                                  text:
-                                                      'You do not have any IOTA profile.\n\n'
-                                                          .tr,
-                                                  subText:
-                                                      'Please create a new IOTA profile'
-                                                          .tr,
-                                                  onTap: () => Get.off(() =>
-                                                      const PrivacyPolicyScreen()))),
+                                        Get.offAll(() => LoginWithPin(user: user));
+                                        // Get.offAll(() => LoginWithPin(userName: user.userName.toString(), user: user));
+                                        // Get.to(() => LoginWithPin(userName:_globalUserName));
+                                      }),
+                                      child: SizedBox(
+                                        height: 200,
+                                        width: 200,
+                                        child: CircleAvatar(
+                                          radius: 0,
+                                          backgroundColor:
+                                              context.theme.dividerColor,
+                                          child: TextAutoMetropolis(
+                                              user.userName.toString()),
                                         ),
-                                      ],
+                                      ),
                                     );
-                            },
-                          ),
-                        ),
+                                  },
+                                )
+                              : Column(
+                                  children: [
+                                    vSpacer100(),
+                                    Center(
+                                      child: Align(
+                                          alignment: Alignment.center,
+                                          child: TextAutoSpan(
+                                              text:
+                                                  'You do not have any IOTA profile.\n\n'
+                                                      .tr,
+                                              subText:
+                                                  'Please create a new IOTA profile'
+                                                      .tr,
+                                              onTap: () => Get.off(() =>
+                                                  const PrivacyPolicyScreen()))),
+                                    ),
+                                  ],
+                                );
+                        },
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ));
   }

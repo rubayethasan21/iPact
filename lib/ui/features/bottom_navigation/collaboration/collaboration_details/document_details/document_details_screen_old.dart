@@ -1519,7 +1519,7 @@ class DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                   isCryptographicKeyShared:
                       widget.isCryptographicKeyShared.toString(),
                   cryptographicKeyTransactionId:
-                      widget.cryptographicKeyTransactionId.toString(),
+                      widget.cryptographicKeyTransactionId.toString(), isFileEncrypted: '',
                 ),
               ),
             ],

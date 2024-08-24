@@ -7,7 +7,7 @@ import 'package:unify_secret/data/local/constants.dart';
 import 'package:unify_secret/ui/features/auth/welcome_screen/welcome_screen.dart';
 import 'package:unify_secret/ui/features/bottom_navigation/collaboration/collaboration_screen.dart';
 import 'package:unify_secret/ui/features/bottom_navigation/immutability_check/immutability_check_screen.dart';
-import 'package:unify_secret/ui/features/bottom_navigation/immutability_check/zip_and_download_screen.dart';
+import 'package:unify_secret/ui/features/download_backup/zip_and_download_screen.dart';
 import 'package:unify_secret/ui/features/bottom_navigation/profile/profile_screen.dart';
 import 'package:unify_secret/ui/features/privacy_policy/privacy_policy_show_screen.dart';
 import 'package:unify_secret/ui/features/settings/settings_screen.dart';
@@ -288,7 +288,7 @@ class RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
                   () => Get.to(() => const PrivacyPolicyShowScreen())),
               vSpacer10(),
               _drawerNavMenuItem("Download User Backup".tr, Icons.backup,
-                      () => Get.offAll(() => ZipAndDownloadScreen())),
+                      () => Get.to(() => const ZipAndDownloadScreen())),
               vSpacer10(),
               _drawerNavMenuItem("Log Out".tr, Icons.logout,
                   () => Get.offAll(() => const WelcomeScreen())),

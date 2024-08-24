@@ -30,27 +30,29 @@ class SettingsScreenState extends State<SettingsScreen> with TickerProviderState
           children: [
             AppBarWithBack(title: "Settings".tr),
             vSpacer20(),
-            Padding(
-              padding: const EdgeInsets.all(Dimens.paddingLarge),
-              child: Card(
-                elevation: 1.0,
-                color: context.theme.scaffoldBackgroundColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CupertinoFormRow(
-                    padding: EdgeInsets.zero,
-                    prefix: Row(
-                      children: <Widget>[
-                        hSpacer10(),
-                        Icon(GlobalVariables.gIsDarkMode ? Icons.dark_mode : Icons.light_mode, size: Dimens.iconSizeMid,color: context.theme.primaryColorDark,),
-                        hSpacer10(),
-                        TextAutoMetropolis(GlobalVariables.gIsDarkMode ? 'Dark Mode'.tr : "Light Mode".tr, fontSize: Dimens.fontSizeMid)
-                      ],
-                    ),
-                    child: CupertinoSwitch(
-                      value: GlobalVariables.gIsDarkMode,
-                      activeColor: context.theme.focusColor,
-                      onChanged: (value) => ThemeService().switchTheme(),
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(Dimens.paddingLarge),
+                child: Card(
+                  elevation: 1.0,
+                  color: context.theme.scaffoldBackgroundColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CupertinoFormRow(
+                      padding: EdgeInsets.zero,
+                      prefix: Row(
+                        children: <Widget>[
+                          hSpacer10(),
+                          Icon(GlobalVariables.gIsDarkMode ? Icons.dark_mode : Icons.light_mode, size: Dimens.iconSizeMid,color: context.theme.primaryColorDark,),
+                          hSpacer10(),
+                          TextAutoMetropolis(GlobalVariables.gIsDarkMode ? 'Dark Mode'.tr : "Light Mode".tr, fontSize: Dimens.fontSizeMid)
+                        ],
+                      ),
+                      child: CupertinoSwitch(
+                        value: GlobalVariables.gIsDarkMode,
+                        activeColor: context.theme.focusColor,
+                        onChanged: (value) => ThemeService().switchTheme(),
+                      ),
                     ),
                   ),
                 ),
