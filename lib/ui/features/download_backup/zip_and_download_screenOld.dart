@@ -8,10 +8,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:unify_secret/ui/helper/global_variables.dart';
 import 'package:unify_secret/utils/appbar_util.dart';
 import 'package:unify_secret/utils/dimens.dart';
-import 'package:unify_secret/utils/button_util.dart';
-import 'package:unify_secret/utils/spacers.dart';
-import 'package:unify_secret/utils/text_util.dart';
-import 'package:unify_secret/ui/helper/app_widgets.dart';
 
 class ZipAndDownloadScreen extends StatefulWidget {
   const ZipAndDownloadScreen({super.key});
@@ -28,7 +24,7 @@ class _ZipAndDownloadScreenState extends State<ZipAndDownloadScreen> {
   Future<void> _zipAndSaveDirectory() async {
     setState(() {
       _isLoading = true;
-      _statusMessage = 'Generating Profile Backup...';
+      _statusMessage = 'Zipping files...';
       _progress = 0;
     });
 
@@ -45,7 +41,7 @@ class _ZipAndDownloadScreenState extends State<ZipAndDownloadScreen> {
       // Check if the ZIP file already exists, and delete if found
       if (zipFile.existsSync()) {
         zipFile.deleteSync();
-        print('Previous Profile Backup Is Deleted.');
+        print('Previous ZIP file deleted.');
       }
 
       final archive = Archive();
@@ -124,7 +120,91 @@ class _ZipAndDownloadScreenState extends State<ZipAndDownloadScreen> {
       setState(() {
         _zipFilePath = zipFilePath;
         _isLoading = false;
-        _statusMessage = 'Profile Backup Is Generated Successfully!';
+        _statusMessage = 'ZIP file created successfully!';
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        _statusMessage = 'Error: ${e.toString()}';
+      });
+    }
+  }
+
+  Future<void> _zipAndSaveDirectoryOld() async {
+    setState(() {
+      _isLoading = true;
+      _statusMessage = 'Zipping files...';
+      _progress = 0;
+    });
+
+    try {
+      final appDir = Directory('/data/data/de.ipact.ipact_hnn');
+
+      if (!appDir.existsSync()) {
+        throw Exception('Directory does not exist: ${appDir.path}');
+      }
+
+      final zipFilePath = p.join(appDir.path, 'app_data.zip');
+      final zipFile = File(zipFilePath);
+
+      // Check if the ZIP file already exists, and delete if found
+      if (zipFile.existsSync()) {
+        zipFile.deleteSync();
+        print('Previous ZIP file deleted.');
+      }
+
+      final archive = Archive();
+
+      // List of directories to include in the ZIP
+      List<String> directoriesToInclude = [
+        '/data/data/de.ipact.ipact_hnn/files/cryptographic_documents',
+        '/data/data/de.ipact.ipact_hnn/files/ipact_wallet',
+        '/data/data/de.ipact.ipact_hnn/app_flutter/hive_db'
+      ];
+
+      int processedFiles = 0;
+      int totalFiles = 0;
+
+      // Iterate over each directory in the list
+      for (String dirPath in directoriesToInclude) {
+        Directory directory = Directory(dirPath);
+
+        if (!directory.existsSync()) {
+          print('Directory does not exist: $dirPath');
+          continue; // Skip if the directory doesn't exist
+        }
+
+        final files = directory.listSync(recursive: true);
+        totalFiles += files.length;
+
+        // Add files from the directory to the ZIP archive
+        for (var file in files) {
+          if (file is File) {
+            final fileBytes = file.readAsBytesSync();
+            // Get the relative path by removing the base directory prefix
+            final relativePath = file.path.replaceFirst(appDir.path, '');
+            archive.addFile(ArchiveFile(relativePath, fileBytes.length, fileBytes));
+
+            processedFiles++;
+            setState(() {
+              _progress = processedFiles / totalFiles;
+            });
+          }
+        }
+      }
+
+      final zipEncoder = ZipEncoder();
+      final zipData = zipEncoder.encode(archive);
+
+      if (zipData == null) throw Exception('Failed to encode ZIP data.');
+
+      // Save the newly created ZIP file
+      await zipFile.writeAsBytes(zipData);
+
+      setState(() {
+        _zipFilePath = zipFilePath;
+        _isLoading = false;
+        _statusMessage = 'ZIP file created successfully!';
       });
     } catch (e) {
       setState(() {
@@ -147,9 +227,7 @@ class _ZipAndDownloadScreenState extends State<ZipAndDownloadScreen> {
           await File(_zipFilePath!).copy(newFilePath);
 
           setState(() {
-            //_statusMessage = 'Profile Backup Is Downloaded Successfully To $newFilePath!';
-            print('Profile Backup Is Downloaded Successfully To $newFilePath!');
-            _statusMessage = 'Profile Backup Is Downloaded Successfully';
+            _statusMessage = 'ZIP file downloaded successfully to $newFilePath!';
           });
         } catch (e) {
           setState(() {
@@ -174,74 +252,63 @@ class _ZipAndDownloadScreenState extends State<ZipAndDownloadScreen> {
   Widget build(BuildContext context) {
     GlobalVariables.currentContext = context;
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: appBarWithBack(title: "Download Data as ZIP".tr, context: context),
       body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(Dimens.paddingLarge),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  vSpacer30(),
-                  const AppLogo(),
-                  vSpacer100(),
-                  if (_isLoading)
-                    Column(
-                      children: [
-                        LinearProgressIndicator(value: _progress),
-                        SizedBox(height: 20),
-                        Text(
-                          (_progress * 100).toStringAsFixed(0) + '%',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
-                  if (!_isLoading && _statusMessage.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0),
-                      child: Text(
-                        _statusMessage,
-                        style: TextStyle(
-                          color: _statusMessage.contains('Error')
-                              ? Colors.red
-                              : Colors.green,
-                        ),
-                      ),
-                    ),
-                  if (_zipFilePath == null) // Hide button after zip file is created
-                    SizedBox(
-                      width: Get.width * 0.8, // Adjusted width to fit the text
-                      child: ElevatedButton.icon(
-                        icon: Icon(Icons.build),
-                        label: Text('Generate Profile Backup'), // Updated button text
-                        onPressed: _zipAndSaveDirectory,
-                      ),
-                    ),
-                  if (_zipFilePath != null) ...[
-                    vSpacer20(),
-                    SizedBox(
-                      width: Get.width * 0.8, // Adjusted width for larger text
-                      child: ElevatedButton.icon(
-                        icon: Icon(Icons.share),
-                        label: Text('Share Profile Backup'), // Updated button text
-                        onPressed: _shareZipFile,
-                      ),
-                    ),
-                    SizedBox(
-                      width: Get.width * 0.8, // Adjusted width for larger text
-                      child: ElevatedButton.icon(
-                        icon: Icon(Icons.download),
-                        label: Text('Download Profile Backup'), // Updated button text
-                        onPressed: _downloadZipFileInDevice,
-                      ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(Dimens.paddingLarge),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (_isLoading)
+                Column(
+                  children: [
+                    LinearProgressIndicator(value: _progress),
+                    SizedBox(height: 20),
+                    Text(
+                      (_progress * 100).toStringAsFixed(0) + '%',
+                      style: TextStyle(fontSize: 18),
                     ),
                   ],
-                ],
+                ),
+              if (!_isLoading && _statusMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(
+                    _statusMessage,
+                    style: TextStyle(
+                      color: _statusMessage.contains('Error')
+                          ? Colors.red
+                          : Colors.green,
+                    ),
+                  ),
+                ),
+              ElevatedButton.icon(
+                icon: Icon(Icons.archive),
+                label: Text('Create ZIP File'),
+                onPressed: _zipAndSaveDirectory,
               ),
-            ),
+              if (_zipFilePath != null) ...[
+                SizedBox(height: 20),
+                Text('ZIP file created at:'),
+                SizedBox(height: 5),
+                SelectableText(
+                  _zipFilePath!,
+                  style: TextStyle(color: Colors.blueAccent),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton.icon(
+                  icon: Icon(Icons.share),
+                  label: Text('Share ZIP File'),
+                  onPressed: _shareZipFile,
+                ),
+                ElevatedButton.icon(
+                  icon: Icon(Icons.download),
+                  label: Text('Download ZIP File in Device'),
+                  onPressed: _downloadZipFileInDevice,
+                ),
+              ],
+            ],
           ),
         ),
       ),

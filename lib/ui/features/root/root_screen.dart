@@ -287,7 +287,7 @@ class RootScreenState extends State<RootScreen> with TickerProviderStateMixin {
               _drawerNavMenuItem("Privacy Policy".tr, Icons.privacy_tip,
                   () => Get.to(() => const PrivacyPolicyShowScreen())),
               vSpacer10(),
-              _drawerNavMenuItem("Download User Backup".tr, Icons.backup,
+              _drawerNavMenuItem("Download Profile Backup".tr, Icons.download,
                       () => Get.to(() => const ZipAndDownloadScreen())),
               vSpacer10(),
               _drawerNavMenuItem("Log Out".tr, Icons.logout,
