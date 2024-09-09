@@ -197,7 +197,7 @@ class EncryptionControllerFinal extends GetxController {
     return await objectInstance.asymmetricDecryptFile(
       '${appSupportDir.path}/cryptographic_documents/asymmetric_key_pairs/asymmetric_key_pair_1/private_key.pem',
       filePath.toString(),
-      // '/data/user/0/de.ipact.ipact_hnn/cache/file_picker/1718930671428/asy_1718911216824589_1718924685343708.enc',
+      // '/data/user/0/de.hsheilbronn.ipact/cache/file_picker/1718930671428/asy_1718911216824589_1718924685343708.enc',
       '${appSupportDir.path}/cryptographic_documents/level_2_decrypted_files/',
       'asy_${collaborationId}_${fileId}_$fileCount.enc',
     );

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.ipact.ipact_hnn">
+    package="de.hsheilbronn.ipact">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -41,7 +41,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https"
                     android:host="play.google.com"
-                    android:pathPrefix="/store/apps/details?id=de.ipact.ipact_hnn"/>
+                    android:pathPrefix="/store/apps/details?id=de.hsheilbronn.ipact"/>
             </intent-filter>
 
         </activity>

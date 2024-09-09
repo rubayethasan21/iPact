@@ -47,7 +47,7 @@ class DocumentDetailsScreenState
       var varUserPublicAddress = _controller.userPublicAddress.value;
 
       final String url =
-          'https://play.google.com/store/apps/details?id=de.ipact.ipact_hnn&prm1=$dateAndTimeNow&prm2=$varOwnPublicKey&prm3=$varUserPublicAddress';
+          'https://play.google.com/store/apps/details?id=de.hsheilbronn.ipact&prm1=$dateAndTimeNow&prm2=$varOwnPublicKey&prm3=$varUserPublicAddress';
 
       final String emailBody = 'Hi! Someone shared collaboration document $url';
 

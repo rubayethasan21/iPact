@@ -33,7 +33,7 @@ class _ZipAndDownloadScreenState extends State<ZipAndDownloadScreen> {
     });
 
     try {
-      final appDir = Directory('/data/data/de.ipact.ipact_hnn');
+      final appDir = Directory('/data/data/de.hsheilbronn.ipact');
 
       if (!appDir.existsSync()) {
         throw Exception('Directory does not exist: ${appDir.path}');
@@ -52,15 +52,15 @@ class _ZipAndDownloadScreenState extends State<ZipAndDownloadScreen> {
 
       // List of directories to include in the ZIP
       List<String> directoriesToInclude = [
-        '/data/data/de.ipact.ipact_hnn/files/cryptographic_documents',
-        '/data/data/de.ipact.ipact_hnn/files/ipact_wallet',
-        '/data/data/de.ipact.ipact_hnn/app_flutter/hive_db'
+        '/data/data/de.hsheilbronn.ipact/files/cryptographic_documents',
+        '/data/data/de.hsheilbronn.ipact/files/ipact_wallet',
+        '/data/data/de.hsheilbronn.ipact/app_flutter/hive_db'
       ];
 
       // Add individual files to include in the ZIP
       List<String> filesToInclude = [
-        '/data/data/de.ipact.ipact_hnn/app_flutter/users.hive',
-        '/data/data/de.ipact.ipact_hnn/app_flutter/users.lock'
+        '/data/data/de.hsheilbronn.ipact/app_flutter/users.hive',
+        '/data/data/de.hsheilbronn.ipact/app_flutter/users.lock'
       ];
 
       int processedFiles = 0;

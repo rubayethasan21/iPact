@@ -244,7 +244,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
 
     if (result != null && result.files.single.path != null) {
       File selectedFile = File(result.files.single.path!);
-      String appDirPath = '/data/data/de.ipact.ipact_hnn';
+      String appDirPath = '/data/data/de.hsheilbronn.ipact';
       String zipFilePath = p.join(appDirPath, 'app_data.zip');
 
       // Ensure the directory exists

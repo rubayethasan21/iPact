@@ -73,7 +73,7 @@ class StartNewCollaborationScreenState
       var varUserPublicAddress = _controller.userPublicAddress.value;
 
       final String url =
-          'https://play.google.com/store/apps/details?id=de.ipact.ipact_hnn&prm1=$dateAndTimeNow&prm2=$varOwnPublicKey&prm3=$varUserPublicAddress';
+          'https://play.google.com/store/apps/details?id=de.hsheilbronn.ipact&prm1=$dateAndTimeNow&prm2=$varOwnPublicKey&prm3=$varUserPublicAddress';
 
       final String emailBody = 'Hi! You have a new invitation to collaborate. Step 1: Click the link to install the application. Step 2: Copy the link and open the iPact Application to collaborate. $url';
 
@@ -112,13 +112,13 @@ class StartNewCollaborationScreenState
       var ownPublicKey =
           await _encryptionControllerFinal.getPublicKeyAsString();
 
-      const String url = 'https://play.google.com/store/apps/details?id=de.ipact.ipact_hnn';
+      const String url = 'https://play.google.com/store/apps/details?id=de.hsheilbronn.ipact';
 
       var varOwnPublicKey = _controller.ownPublicKey.value;
       var varUserPublicAddress = _controller.userPublicAddress.value;
 
       final String url2 =
-          'https://play.google.com/store/apps/details?id=de.ipact.ipact_hnn&prm1=$dateAndTimeNow&prm2=$varOwnPublicKey&prm3=$varUserPublicAddress';
+          'https://play.google.com/store/apps/details?id=de.hsheilbronn.ipact&prm1=$dateAndTimeNow&prm2=$varOwnPublicKey&prm3=$varUserPublicAddress';
 
       final String emailBody =
           'Hi! Someone invites you to collaborate. First install the app from Google Play Store $url \n\n After installing the app click the below link to collaborate $url2';

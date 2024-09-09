@@ -1,4 +1,4 @@
-package de.ipact.ipact_hnn
+package de.hsheilbronn.ipact
 
 import io.flutter.embedding.android.FlutterActivity
 
