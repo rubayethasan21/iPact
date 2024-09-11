@@ -125,7 +125,16 @@ class DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
 
     collaborationBox = Hive.box('collaborations');
     if (collaborationBox.isNotEmpty) {
-      collaborations = collaborationBox.values.first;
+// Find the specific collaboration by filtering the box values
+      collaborations = collaborationBox.values.firstWhere(
+            (collab) => collab.collaborationId == widget.collaborationId,
+      );
+
+      print('collaborations');
+      print(collaborations.collaborationId);
+      print(collaborations.senderIOTAAddress);
+      print(collaborations.receiverIOTAAddress);
+
     } else {
       // empty state
     }
@@ -819,12 +828,19 @@ class DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
 
       try {
         String collaborationPartnerAddress;
+
+        print('user.userPublicAddress');
+        print(user.userPublicAddress);
         if (user.userPublicAddress == collaborations.senderIOTAAddress) {
           collaborationPartnerAddress =
               collaborations.receiverIOTAAddress.toString();
+          print('here01');
+          print('collaborationPartnerAddress: $collaborationPartnerAddress');
         } else {
           collaborationPartnerAddress =
               collaborations.senderIOTAAddress.toString();
+          print('here02');
+          print('collaborationPartnerAddress: $collaborationPartnerAddress');
         }
 
         List<String> filePaths =
@@ -1657,71 +1673,59 @@ class DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
   }
 
   Widget _documentDetailsTab() {
-    return Expanded(
-      child: RefreshIndicator(
-        onRefresh: _controller.getData,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              vSpacer20(),
-              SizedBox(
-                height: 100,
-                width: 100,
-                child: CircleAvatar(
-                  radius: 0,
-                  backgroundColor: context.theme.dividerColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SvgPicture.asset(
-                      AssetConstants.icDocument,
-                      color: context.theme.primaryColorDark,
-                    ),
+    return RefreshIndicator(
+      onRefresh: _controller.getData,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            vSpacer20(),
+            SizedBox(
+              height: 100,
+              width: 100,
+              child: CircleAvatar(
+                radius: 0,
+                backgroundColor: context.theme.dividerColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: SvgPicture.asset(
+                    AssetConstants.icDocument,
+                    color: context.theme.primaryColorDark,
                   ),
                 ),
               ),
-              Center(
-                child: DocumentCard(
-                  collaborationId: widget.collaborationId.toString(),
-                  documentName: widget.documentName.toString(),
-                  documentShareStatus: widget.documentShareStatus.toString(),
-                  filePath: widget.filePath.toString(),
-                  fileId: widget.fileId.toString(),
-                  fileOriginalName: widget.fileOriginalName.toString(),
-                  generateKeyFileForSymmetricCryptography:
-                      widget.generateKeyFileForSymmetricCryptography.toString(),
-                  symmetricEncryptFile: widget.symmetricEncryptFile.toString(),
-                  asymmetricEncryptFile:
-                      widget.asymmetricEncryptFile.toString(),
-                  asymmetricDecryptFile:
-                      widget.asymmetricDecryptFile.toString(),
-                  symmetricDecryptFile: widget.symmetricDecryptFile.toString(),
-                  originalFileHash: widget.originalFileHash.toString(),
-                  symmetricEncryptFileHash:
-                      widget.symmetricEncryptFileHash.toString(),
-                  ownDocument: widget.ownDocument.toString(),
-                  originalFileHashTransactionId:
-                      widget.originalFileHashTransactionId.toString(),
-                  symmetricEncryptFileHashTransactionId:
-                      widget.symmetricEncryptFileHashTransactionId.toString(),
-                  //originalFileHashTransactionId: 'https://explorer.iota.org/shimmer-testnet/transaction/${widget.originalFileHashTransactionId?.replaceAll('"', '')}',
-                  //symmetricEncryptFileHashTransactionId: 'https://explorer.iota.org/shimmer-testnet/transaction/${widget.symmetricEncryptFileHashTransactionId?.replaceAll('"', '')}',
-                  asymmetricDecryptFileHash:
-                      widget.asymmetricDecryptFileHash.toString(),
-                  asymmetricDecryptFileHashTransactionId:
-                      widget.asymmetricDecryptFileHashTransactionId.toString(),
-                  isCryptographicKeyShared:
-                      widget.isCryptographicKeyShared.toString(),
-                  isFileEncrypted: widget.isFileEncrypted.toString(),
-                  cryptographicKeyTransactionId:
-                      widget.cryptographicKeyTransactionId.toString(),
-                ),
+            ),
+            Center(
+              child: DocumentCard(
+                collaborationId: widget.collaborationId?.toString() ?? '',
+                documentName: widget.documentName?.toString() ?? '',
+                documentShareStatus: widget.documentShareStatus?.toString() ?? '',
+                filePath: widget.filePath?.toString() ?? '',
+                fileId: widget.fileId?.toString() ?? '',
+                fileOriginalName: widget.fileOriginalName?.toString() ?? '',
+                generateKeyFileForSymmetricCryptography:
+                widget.generateKeyFileForSymmetricCryptography?.toString() ?? '',
+                symmetricEncryptFile: widget.symmetricEncryptFile?.toString() ?? '',
+                asymmetricEncryptFile: widget.asymmetricEncryptFile?.toString() ?? '',
+                asymmetricDecryptFile: widget.asymmetricDecryptFile?.toString() ?? '',
+                symmetricDecryptFile: widget.symmetricDecryptFile?.toString() ?? '',
+                originalFileHash: widget.originalFileHash?.toString() ?? '',
+                symmetricEncryptFileHash: widget.symmetricEncryptFileHash?.toString() ?? '',
+                ownDocument: widget.ownDocument?.toString() ?? '',
+                originalFileHashTransactionId: widget.originalFileHashTransactionId?.toString() ?? '',
+                symmetricEncryptFileHashTransactionId: widget.symmetricEncryptFileHashTransactionId?.toString() ?? '',
+                asymmetricDecryptFileHash: widget.asymmetricDecryptFileHash?.toString() ?? '',
+                asymmetricDecryptFileHashTransactionId: widget.asymmetricDecryptFileHashTransactionId?.toString() ?? '',
+                isCryptographicKeyShared: widget.isCryptographicKeyShared?.toString() ?? '',
+                isFileEncrypted: widget.isFileEncrypted?.toString() ?? '',
+                cryptographicKeyTransactionId: widget.cryptographicKeyTransactionId?.toString() ?? '',
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+
 
   Future<void> shareFile(BuildContext context, String filePath) async {
     await Share.shareXFiles(

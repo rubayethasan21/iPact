@@ -23,8 +23,9 @@ void main() async {
   await _setDefaultValues();
   WidgetsFlutterBinding.ensureInitialized();
 
-  Directory directory = await getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
+  //Directory directory = await getApplicationDocumentsDirectory();
+  Directory? directory = await getExternalStorageDirectory();
+  Hive.init(directory?.path);
   Hive.initFlutter('hive_db'); // sub directory
 
   ///  Register the adapter for user

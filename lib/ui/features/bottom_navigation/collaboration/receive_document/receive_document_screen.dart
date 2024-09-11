@@ -67,11 +67,6 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
     }
 
     collaborationBox = Hive.box('collaborations');
-    // if (collaborationBox.isNotEmpty) {
-    //   collaborations = collaborationBox.values.first;
-    // } else {
-    //   // empty state
-    // }
   }
 
   @override
@@ -111,7 +106,7 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
     return extractedFiles;
   }
 
-  _handleDecryptionProcess(String filePath) async {
+  Future<void> _handleDecryptionProcess(String filePath) async {
     if (selectedFile.toString().isEmpty) {
       Get.snackbar('Error', 'You have not selected any encrypted file');
     } else {
@@ -172,7 +167,7 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
             print(receivedEncryptedFile.path);
             var receivedEncryptedFilePath = receivedEncryptedFile.path;
 
-            final asymmetricDecryptedFilePath =
+            var asymmetricDecryptedFilePath =
                 await _controllerEncryptionControllerFinal
                     .asymmetricDecryptFile(
                         collaborationId: _controller.collaborationId.toString(),

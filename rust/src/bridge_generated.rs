@@ -48,160 +48,6 @@ fn wire_generate_mnemonic_impl(port_: MessagePort) {
         move || move |task_callback| Result::<_, ()>::Ok(generate_mnemonic()),
     )
 }
-fn wire_create_wallet_account_impl(
-    port_: MessagePort,
-    network_info: impl Wire2Api<NetworkInfo> + UnwindSafe,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "create_wallet_account",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_network_info = network_info.wire2api();
-            let api_wallet_info = wallet_info.wire2api();
-            move |task_callback| create_wallet_account(api_network_info, api_wallet_info)
-        },
-    )
-}
-fn wire_get_addresses_impl(
-    port_: MessagePort,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "get_addresses",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_wallet_info = wallet_info.wire2api();
-            move |task_callback| get_addresses(api_wallet_info)
-        },
-    )
-}
-fn wire_create_transaction_impl(
-    port_: MessagePort,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-    transaction_params: impl Wire2Api<TransactionParams> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "create_transaction",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_wallet_info = wallet_info.wire2api();
-            let api_transaction_params = transaction_params.wire2api();
-            move |task_callback| create_transaction(api_wallet_info, api_transaction_params)
-        },
-    )
-}
-fn wire_create_advanced_transaction_impl(
-    port_: MessagePort,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-    transaction_params: impl Wire2Api<TransactionParams> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "create_advanced_transaction",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_wallet_info = wallet_info.wire2api();
-            let api_transaction_params = transaction_params.wire2api();
-            move |task_callback| {
-                create_advanced_transaction(api_wallet_info, api_transaction_params)
-            }
-        },
-    )
-}
-fn wire_generate_address_impl(
-    port_: MessagePort,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "generate_address",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_wallet_info = wallet_info.wire2api();
-            move |task_callback| generate_address(api_wallet_info)
-        },
-    )
-}
-fn wire_get_sent_transactions_impl(
-    port_: MessagePort,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "get_sent_transactions",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_wallet_info = wallet_info.wire2api();
-            move |task_callback| get_sent_transactions(api_wallet_info)
-        },
-    )
-}
-fn wire_get_received_transactions_impl(
-    port_: MessagePort,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "get_received_transactions",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_wallet_info = wallet_info.wire2api();
-            move |task_callback| get_received_transactions(api_wallet_info)
-        },
-    )
-}
-fn wire_get_single_transaction_impl(
-    port_: MessagePort,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-    transaction_id: impl Wire2Api<String> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "get_single_transaction",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_wallet_info = wallet_info.wire2api();
-            let api_transaction_id = transaction_id.wire2api();
-            move |task_callback| get_single_transaction(api_wallet_info, api_transaction_id)
-        },
-    )
-}
-fn wire_check_balance_impl(
-    port_: MessagePort,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "check_balance",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_wallet_info = wallet_info.wire2api();
-            move |task_callback| check_balance(api_wallet_info)
-        },
-    )
-}
 fn wire_request_funds_impl(
     port_: MessagePort,
     network_info: impl Wire2Api<NetworkInfo> + UnwindSafe,
@@ -217,42 +63,6 @@ fn wire_request_funds_impl(
             let api_network_info = network_info.wire2api();
             let api_wallet_info = wallet_info.wire2api();
             move |task_callback| request_funds(api_network_info, api_wallet_info)
-        },
-    )
-}
-fn wire_create_decentralized_identifier_impl(
-    port_: MessagePort,
-    network_info: impl Wire2Api<NetworkInfo> + UnwindSafe,
-    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "create_decentralized_identifier",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_network_info = network_info.wire2api();
-            let api_wallet_info = wallet_info.wire2api();
-            move |task_callback| create_decentralized_identifier(api_network_info, api_wallet_info)
-        },
-    )
-}
-fn wire_bin_to_hex_impl(
-    port_: MessagePort,
-    val: impl Wire2Api<String> + UnwindSafe,
-    len: impl Wire2Api<usize> + UnwindSafe,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
-        WrapInfo {
-            debug_name: "bin_to_hex",
-            port: Some(port_),
-            mode: FfiCallMode::Normal,
-        },
-        move || {
-            let api_val = val.wire2api();
-            let api_len = len.wire2api();
-            move |task_callback| Result::<_, ()>::Ok(bin_to_hex(api_val, api_len))
         },
     )
 }
@@ -337,6 +147,22 @@ fn wire_get_balance_impl(port_: MessagePort, wallet_info: impl Wire2Api<WalletIn
         },
     )
 }
+fn wire_get_addresses_impl(
+    port_: MessagePort,
+    wallet_info: impl Wire2Api<WalletInfo> + UnwindSafe,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap::<_, _, _, String, _>(
+        WrapInfo {
+            debug_name: "get_addresses",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_wallet_info = wallet_info.wire2api();
+            move |task_callback| get_addresses(api_wallet_info)
+        },
+    )
+}
 // Section: wrapper structs
 
 // Section: static checks
@@ -362,12 +188,6 @@ where
 
 impl Wire2Api<u8> for u8 {
     fn wire2api(self) -> u8 {
-        self
-    }
-}
-
-impl Wire2Api<usize> for usize {
-    fn wire2api(self) -> usize {
         self
     }
 }

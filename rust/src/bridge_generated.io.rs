@@ -12,87 +12,12 @@ pub extern "C" fn wire_generate_mnemonic(port_: i64) {
 }
 
 #[no_mangle]
-pub extern "C" fn wire_create_wallet_account(
-    port_: i64,
-    network_info: *mut wire_NetworkInfo,
-    wallet_info: *mut wire_WalletInfo,
-) {
-    wire_create_wallet_account_impl(port_, network_info, wallet_info)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_get_addresses(port_: i64, wallet_info: *mut wire_WalletInfo) {
-    wire_get_addresses_impl(port_, wallet_info)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_create_transaction(
-    port_: i64,
-    wallet_info: *mut wire_WalletInfo,
-    transaction_params: *mut wire_TransactionParams,
-) {
-    wire_create_transaction_impl(port_, wallet_info, transaction_params)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_create_advanced_transaction(
-    port_: i64,
-    wallet_info: *mut wire_WalletInfo,
-    transaction_params: *mut wire_TransactionParams,
-) {
-    wire_create_advanced_transaction_impl(port_, wallet_info, transaction_params)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_generate_address(port_: i64, wallet_info: *mut wire_WalletInfo) {
-    wire_generate_address_impl(port_, wallet_info)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_get_sent_transactions(port_: i64, wallet_info: *mut wire_WalletInfo) {
-    wire_get_sent_transactions_impl(port_, wallet_info)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_get_received_transactions(port_: i64, wallet_info: *mut wire_WalletInfo) {
-    wire_get_received_transactions_impl(port_, wallet_info)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_get_single_transaction(
-    port_: i64,
-    wallet_info: *mut wire_WalletInfo,
-    transaction_id: *mut wire_uint_8_list,
-) {
-    wire_get_single_transaction_impl(port_, wallet_info, transaction_id)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_check_balance(port_: i64, wallet_info: *mut wire_WalletInfo) {
-    wire_check_balance_impl(port_, wallet_info)
-}
-
-#[no_mangle]
 pub extern "C" fn wire_request_funds(
     port_: i64,
     network_info: *mut wire_NetworkInfo,
     wallet_info: *mut wire_WalletInfo,
 ) {
     wire_request_funds_impl(port_, network_info, wallet_info)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_create_decentralized_identifier(
-    port_: i64,
-    network_info: *mut wire_NetworkInfo,
-    wallet_info: *mut wire_WalletInfo,
-) {
-    wire_create_decentralized_identifier_impl(port_, network_info, wallet_info)
-}
-
-#[no_mangle]
-pub extern "C" fn wire_bin_to_hex(port_: i64, val: *mut wire_uint_8_list, len: usize) {
-    wire_bin_to_hex_impl(port_, val, len)
 }
 
 #[no_mangle]
@@ -126,6 +51,11 @@ pub extern "C" fn wire_read_outgoing_transactions(port_: i64, wallet_info: *mut 
 #[no_mangle]
 pub extern "C" fn wire_get_balance(port_: i64, wallet_info: *mut wire_WalletInfo) {
     wire_get_balance_impl(port_, wallet_info)
+}
+
+#[no_mangle]
+pub extern "C" fn wire_get_addresses(port_: i64, wallet_info: *mut wire_WalletInfo) {
+    wire_get_addresses_impl(port_, wallet_info)
 }
 
 // Section: allocate functions
@@ -209,7 +139,6 @@ impl Wire2Api<Vec<u8>> for *mut wire_uint_8_list {
         }
     }
 }
-
 impl Wire2Api<WalletInfo> for wire_WalletInfo {
     fn wire2api(self) -> WalletInfo {
         WalletInfo {

@@ -88,45 +88,8 @@ class RustWasmModule implements WasmModule {
 
   external dynamic /* void */ wire_generate_mnemonic(NativePortType port_);
 
-  external dynamic /* void */ wire_create_wallet_account(NativePortType port_,
-      List<dynamic> network_info, List<dynamic> wallet_info);
-
-  external dynamic /* void */ wire_get_addresses(
-      NativePortType port_, List<dynamic> wallet_info);
-
-  external dynamic /* void */ wire_create_transaction(NativePortType port_,
-      List<dynamic> wallet_info, List<dynamic> transaction_params);
-
-  external dynamic /* void */ wire_create_advanced_transaction(
-      NativePortType port_,
-      List<dynamic> wallet_info,
-      List<dynamic> transaction_params);
-
-  external dynamic /* void */ wire_generate_address(
-      NativePortType port_, List<dynamic> wallet_info);
-
-  external dynamic /* void */ wire_get_sent_transactions(
-      NativePortType port_, List<dynamic> wallet_info);
-
-  external dynamic /* void */ wire_get_received_transactions(
-      NativePortType port_, List<dynamic> wallet_info);
-
-  external dynamic /* void */ wire_get_single_transaction(
-      NativePortType port_, List<dynamic> wallet_info, String transaction_id);
-
-  external dynamic /* void */ wire_check_balance(
-      NativePortType port_, List<dynamic> wallet_info);
-
   external dynamic /* void */ wire_request_funds(NativePortType port_,
       List<dynamic> network_info, List<dynamic> wallet_info);
-
-  external dynamic /* void */ wire_create_decentralized_identifier(
-      NativePortType port_,
-      List<dynamic> network_info,
-      List<dynamic> wallet_info);
-
-  external dynamic /* void */ wire_bin_to_hex(
-      NativePortType port_, String val, int len);
 
   external dynamic /* void */ wire_create_iota_account(NativePortType port_,
       List<dynamic> network_info, List<dynamic> wallet_info);
@@ -144,6 +107,9 @@ class RustWasmModule implements WasmModule {
 
   external dynamic /* void */ wire_get_balance(
       NativePortType port_, List<dynamic> wallet_info);
+
+  external dynamic /* void */ wire_get_addresses(
+      NativePortType port_, List<dynamic> wallet_info);
 }
 
 // Section: WASM wire connector
@@ -158,53 +124,9 @@ class RustWire extends FlutterRustBridgeWasmWireBase<RustWasmModule> {
   void wire_generate_mnemonic(NativePortType port_) =>
       wasmModule.wire_generate_mnemonic(port_);
 
-  void wire_create_wallet_account(NativePortType port_,
-          List<dynamic> network_info, List<dynamic> wallet_info) =>
-      wasmModule.wire_create_wallet_account(port_, network_info, wallet_info);
-
-  void wire_get_addresses(NativePortType port_, List<dynamic> wallet_info) =>
-      wasmModule.wire_get_addresses(port_, wallet_info);
-
-  void wire_create_transaction(NativePortType port_, List<dynamic> wallet_info,
-          List<dynamic> transaction_params) =>
-      wasmModule.wire_create_transaction(
-          port_, wallet_info, transaction_params);
-
-  void wire_create_advanced_transaction(NativePortType port_,
-          List<dynamic> wallet_info, List<dynamic> transaction_params) =>
-      wasmModule.wire_create_advanced_transaction(
-          port_, wallet_info, transaction_params);
-
-  void wire_generate_address(NativePortType port_, List<dynamic> wallet_info) =>
-      wasmModule.wire_generate_address(port_, wallet_info);
-
-  void wire_get_sent_transactions(
-          NativePortType port_, List<dynamic> wallet_info) =>
-      wasmModule.wire_get_sent_transactions(port_, wallet_info);
-
-  void wire_get_received_transactions(
-          NativePortType port_, List<dynamic> wallet_info) =>
-      wasmModule.wire_get_received_transactions(port_, wallet_info);
-
-  void wire_get_single_transaction(NativePortType port_,
-          List<dynamic> wallet_info, String transaction_id) =>
-      wasmModule.wire_get_single_transaction(
-          port_, wallet_info, transaction_id);
-
-  void wire_check_balance(NativePortType port_, List<dynamic> wallet_info) =>
-      wasmModule.wire_check_balance(port_, wallet_info);
-
   void wire_request_funds(NativePortType port_, List<dynamic> network_info,
           List<dynamic> wallet_info) =>
       wasmModule.wire_request_funds(port_, network_info, wallet_info);
-
-  void wire_create_decentralized_identifier(NativePortType port_,
-          List<dynamic> network_info, List<dynamic> wallet_info) =>
-      wasmModule.wire_create_decentralized_identifier(
-          port_, network_info, wallet_info);
-
-  void wire_bin_to_hex(NativePortType port_, String val, int len) =>
-      wasmModule.wire_bin_to_hex(port_, val, len);
 
   void wire_create_iota_account(NativePortType port_,
           List<dynamic> network_info, List<dynamic> wallet_info) =>
@@ -225,4 +147,7 @@ class RustWire extends FlutterRustBridgeWasmWireBase<RustWasmModule> {
 
   void wire_get_balance(NativePortType port_, List<dynamic> wallet_info) =>
       wasmModule.wire_get_balance(port_, wallet_info);
+
+  void wire_get_addresses(NativePortType port_, List<dynamic> wallet_info) =>
+      wasmModule.wire_get_addresses(port_, wallet_info);
 }

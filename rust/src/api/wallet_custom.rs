@@ -1,5 +1,5 @@
 use super::{
-    NetworkInfo, TransactionDetails, TransactionDetailsCustom, TransactionParams, WalletInfo,
+    NetworkInfo, TransactionDetailsCustom, TransactionParams, WalletInfo,
 };
 use anyhow::Result;
 use iota_sdk::{
@@ -11,7 +11,7 @@ use iota_sdk::{
     types::block::{
         address::Address,
         output::{
-            feature::{MetadataFeature, TagFeature},
+            feature::MetadataFeature,
             unlock_condition::{
                 AddressUnlockCondition, StorageDepositReturnUnlockCondition,
                 TimelockUnlockCondition,
@@ -244,5 +244,25 @@ pub fn get_balance(wallet_info: WalletInfo) -> Result<String> {
         // Sync and get the balance
         let balance = account.sync(None).await?;
         Ok(serde_json::to_string_pretty(&balance).unwrap())
+    })
+}
+
+
+pub fn get_addresses(wallet_info: WalletInfo) -> Result<String> {
+    Runtime::new().unwrap().block_on(async {
+        let ipact_wallet_db_path = wallet_info.stronghold_filepath.clone();
+        let wallet_directory = "walletdb";
+        let wallet_path = ipact_wallet_db_path.to_owned() + wallet_directory;
+        let wallet = Wallet::builder()
+            .with_storage_path(wallet_path.as_str())
+            .finish()
+            .await?;
+
+        let user_alias = wallet_info.alias.as_str();
+        let account = wallet.get_account(user_alias).await?;
+        account.sync(None).await?;
+        let account_addresses = account.addresses().await?;
+
+        Ok(serde_json::to_string_pretty(&account_addresses).unwrap())
     })
 }

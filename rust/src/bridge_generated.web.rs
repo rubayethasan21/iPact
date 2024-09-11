@@ -12,79 +12,8 @@ pub fn wire_generate_mnemonic(port_: MessagePort) {
 }
 
 #[wasm_bindgen]
-pub fn wire_create_wallet_account(port_: MessagePort, network_info: JsValue, wallet_info: JsValue) {
-    wire_create_wallet_account_impl(port_, network_info, wallet_info)
-}
-
-#[wasm_bindgen]
-pub fn wire_get_addresses(port_: MessagePort, wallet_info: JsValue) {
-    wire_get_addresses_impl(port_, wallet_info)
-}
-
-#[wasm_bindgen]
-pub fn wire_create_transaction(
-    port_: MessagePort,
-    wallet_info: JsValue,
-    transaction_params: JsValue,
-) {
-    wire_create_transaction_impl(port_, wallet_info, transaction_params)
-}
-
-#[wasm_bindgen]
-pub fn wire_create_advanced_transaction(
-    port_: MessagePort,
-    wallet_info: JsValue,
-    transaction_params: JsValue,
-) {
-    wire_create_advanced_transaction_impl(port_, wallet_info, transaction_params)
-}
-
-#[wasm_bindgen]
-pub fn wire_generate_address(port_: MessagePort, wallet_info: JsValue) {
-    wire_generate_address_impl(port_, wallet_info)
-}
-
-#[wasm_bindgen]
-pub fn wire_get_sent_transactions(port_: MessagePort, wallet_info: JsValue) {
-    wire_get_sent_transactions_impl(port_, wallet_info)
-}
-
-#[wasm_bindgen]
-pub fn wire_get_received_transactions(port_: MessagePort, wallet_info: JsValue) {
-    wire_get_received_transactions_impl(port_, wallet_info)
-}
-
-#[wasm_bindgen]
-pub fn wire_get_single_transaction(
-    port_: MessagePort,
-    wallet_info: JsValue,
-    transaction_id: String,
-) {
-    wire_get_single_transaction_impl(port_, wallet_info, transaction_id)
-}
-
-#[wasm_bindgen]
-pub fn wire_check_balance(port_: MessagePort, wallet_info: JsValue) {
-    wire_check_balance_impl(port_, wallet_info)
-}
-
-#[wasm_bindgen]
 pub fn wire_request_funds(port_: MessagePort, network_info: JsValue, wallet_info: JsValue) {
     wire_request_funds_impl(port_, network_info, wallet_info)
-}
-
-#[wasm_bindgen]
-pub fn wire_create_decentralized_identifier(
-    port_: MessagePort,
-    network_info: JsValue,
-    wallet_info: JsValue,
-) {
-    wire_create_decentralized_identifier_impl(port_, network_info, wallet_info)
-}
-
-#[wasm_bindgen]
-pub fn wire_bin_to_hex(port_: MessagePort, val: String, len: usize) {
-    wire_bin_to_hex_impl(port_, val, len)
 }
 
 #[wasm_bindgen]
@@ -114,6 +43,11 @@ pub fn wire_read_outgoing_transactions(port_: MessagePort, wallet_info: JsValue)
 #[wasm_bindgen]
 pub fn wire_get_balance(port_: MessagePort, wallet_info: JsValue) {
     wire_get_balance_impl(port_, wallet_info)
+}
+
+#[wasm_bindgen]
+pub fn wire_get_addresses(port_: MessagePort, wallet_info: JsValue) {
+    wire_get_addresses_impl(port_, wallet_info)
 }
 
 // Section: allocate functions
@@ -166,7 +100,6 @@ impl Wire2Api<Vec<u8>> for Box<[u8]> {
         self.into_vec()
     }
 }
-
 impl Wire2Api<WalletInfo> for JsValue {
     fn wire2api(self) -> WalletInfo {
         let self_ = self.dyn_into::<JsArray>().unwrap();
@@ -208,10 +141,5 @@ impl Wire2Api<u8> for JsValue {
 impl Wire2Api<Vec<u8>> for JsValue {
     fn wire2api(self) -> Vec<u8> {
         self.unchecked_into::<js_sys::Uint8Array>().to_vec().into()
-    }
-}
-impl Wire2Api<usize> for JsValue {
-    fn wire2api(self) -> usize {
-        self.unchecked_into_f64() as _
     }
 }

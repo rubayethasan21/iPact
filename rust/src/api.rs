@@ -1,42 +1,30 @@
+use std::env;
+
 use anyhow::Result;
-//use serde::{Serialize, Serializer};
 use serde::Serialize;
 use tokio::runtime::Runtime;
 
 use iota_sdk::{
     client::{
-        secret::{
-            stronghold::StrongholdSecretManager as WalletStrongholdSecretManager,
-            SecretManager as WalletSecretManager,
-        },
         utils::request_funds_from_faucet,
         Client,
     },
-    //types::{api::core::response::OutputWithMetadataResponse, block::{address::Bech32Address, output::AliasOutput, payload::{transaction::{TransactionEssence, TransactionId}, TransactionPayload}, unlock::Unlocks, BlockId}}, wallet::account::types::{InclusionState, Transaction},
     types::{
         api::core::response::OutputWithMetadataResponse,
         block::{
             address::Bech32Address,
-            output::AliasOutput,
-            payload::transaction::{TransactionEssence, TransactionId},
+            payload::transaction::{
+                TransactionEssence,
+                TransactionId
+            },
             unlock::Unlocks,
             BlockId,
         },
     },
-    wallet::{account::types::InclusionState, ClientOptions},
-    Wallet,
-};
-
-use std::{env, path::PathBuf, u32};
-
-use identity_iota::{
-    iota::{IotaClientExt, IotaDocument, IotaIdentityClientExt, NetworkName},
-    storage::{JwkDocumentExt, JwkMemStore, KeyIdMemstore, Storage},
-    verification::{jws::JwsAlgorithm, MethodScope},
+    wallet::account::types::InclusionState,
 };
 
 mod wallet_custom;
-mod wallet_singleton;
 
 #[derive(Debug, Clone)]
 pub struct NetworkInfo {
@@ -125,57 +113,6 @@ pub fn generate_mnemonic() -> String {
 }
 
 #[allow(dead_code)]
-pub fn create_wallet_account(network_info: NetworkInfo, wallet_info: WalletInfo) -> Result<String> {
-    wallet_singleton::create_wallet_account(network_info, wallet_info)
-}
-
-#[allow(dead_code)]
-pub fn get_addresses(wallet_info: WalletInfo) -> Result<String> {
-    wallet_singleton::get_addresses(wallet_info)
-}
-
-#[allow(dead_code)]
-pub fn create_transaction(
-    wallet_info: WalletInfo,
-    transaction_params: TransactionParams,
-) -> Result<String> {
-    wallet_singleton::create_transaction(wallet_info, transaction_params)
-}
-
-#[allow(dead_code)]
-pub fn create_advanced_transaction(
-    wallet_info: WalletInfo,
-    transaction_params: TransactionParams,
-) -> Result<String> {
-    wallet_singleton::create_advanced_transaction(wallet_info, transaction_params)
-}
-
-#[allow(dead_code)]
-pub fn generate_address(wallet_info: WalletInfo) -> Result<String> {
-    wallet_singleton::generate_address(wallet_info)
-}
-
-#[allow(dead_code)]
-pub fn get_sent_transactions(wallet_info: WalletInfo) -> Result<String> {
-    wallet_singleton::get_sent_transactions(wallet_info)
-}
-
-#[allow(dead_code)]
-pub fn get_received_transactions(wallet_info: WalletInfo) -> Result<String> {
-    wallet_singleton::get_received_transactions(wallet_info)
-}
-
-#[allow(dead_code)]
-pub fn get_single_transaction(wallet_info: WalletInfo, transaction_id: String) -> Result<String> {
-    wallet_singleton::get_single_transaction(wallet_info, transaction_id)
-}
-
-#[allow(dead_code)]
-pub fn check_balance(wallet_info: WalletInfo) -> Result<String> {
-    wallet_singleton::check_balance(wallet_info)
-}
-
-#[allow(dead_code)]
 pub fn request_funds(network_info: NetworkInfo, wallet_info: WalletInfo) -> Result<String> {
     Runtime::new().unwrap().block_on(async {
         env::set_current_dir(&wallet_info.stronghold_filepath).ok();
@@ -186,90 +123,6 @@ pub fn request_funds(network_info: NetworkInfo, wallet_info: WalletInfo) -> Resu
         let faucet_response = request_funds_from_faucet(&faucet_url, &address).await?;
         Ok(faucet_response.to_string())
     })
-}
-
-type MemStorage = Storage<JwkMemStore, KeyIdMemstore>;
-#[allow(dead_code)]
-pub fn create_decentralized_identifier(
-    network_info: NetworkInfo,
-    wallet_info: WalletInfo,
-) -> Result<String> {
-    Runtime::new().unwrap().block_on(async {
-        let node_url = network_info.node_url;
-        let stronghold_password = wallet_info.stronghold_password;
-        let stronghold_filepath = wallet_info.stronghold_filepath;
-        let last_address = wallet_info.last_address;
-
-        env::set_current_dir(&stronghold_filepath).ok();
-
-        let mut path_buf_snapshot = PathBuf::new();
-        path_buf_snapshot.push(&stronghold_filepath);
-        path_buf_snapshot.push("wallet.stronghold");
-        let path_snapshot = PathBuf::from(path_buf_snapshot);
-
-        // Create a new client to interact with the IOTA ledger.
-        let client: Client = Client::builder()
-            .with_primary_node(&node_url, None)?
-            .finish()
-            .await?;
-
-        // Create a new secret manager backed by a Stronghold.
-        let secret_manager: WalletSecretManager = WalletSecretManager::Stronghold(
-            WalletStrongholdSecretManager::builder()
-                .password(stronghold_password)
-                .build(path_snapshot)?,
-        );
-
-        // Convert given address (BECH32 string) to Address struct
-        let address = Bech32Address::try_from_str(&last_address)?;
-
-        // Get the Bech32 human-readable part (HRP) of the network.
-        let network_name: NetworkName = client.network_name().await?;
-
-        // Create a new DID document with a placeholder DID.
-        // The DID will be derived from the Alias Id of the Alias Output after publishing.
-        let mut document: IotaDocument = IotaDocument::new(&network_name);
-
-        // Insert a new Ed25519 verification method in the DID document.
-        let storage: MemStorage = MemStorage::new(JwkMemStore::new(), KeyIdMemstore::new());
-        document
-            .generate_method(
-                &storage,
-                JwkMemStore::ED25519_KEY_TYPE,
-                JwsAlgorithm::EdDSA,
-                None,
-                MethodScope::VerificationMethod,
-            )
-            .await?;
-
-        // Insert a new Ed25519 verification method in the DID document.
-        let storage: MemStorage = MemStorage::new(JwkMemStore::new(), KeyIdMemstore::new());
-        document
-            .generate_method(
-                &storage,
-                JwkMemStore::ED25519_KEY_TYPE,
-                JwsAlgorithm::EdDSA,
-                None,
-                MethodScope::VerificationMethod,
-            )
-            .await?;
-
-        // Construct an Alias Output containing the DID document, with the wallet address
-        // set as both the state controller and governor.
-        let alias_output: AliasOutput = client.new_did_output(*address, document, None).await?;
-
-        // Publish the Alias Output and get the published DID document.
-        let document: IotaDocument = client
-            .publish_did_output(&secret_manager, alias_output)
-            .await?;
-        Ok(document.to_string())
-    })
-}
-
-#[allow(dead_code)]
-pub fn bin_to_hex(val: String, len: usize) -> String {
-    let n: u32 = u32::from_str_radix(&val, 2).unwrap();
-    format!("{:01$x}", n, len * 2)
 }
 
 ////////////////////////////////new/////////////////////////////
@@ -302,5 +155,10 @@ pub fn read_outgoing_transactions(wallet_info: WalletInfo) -> Result<String> {
 #[allow(dead_code)]
 pub fn get_balance(wallet_info: WalletInfo) -> Result<String> {
     wallet_custom::get_balance(wallet_info)
+}
+
+#[allow(dead_code)]
+pub fn get_addresses(wallet_info: WalletInfo) -> Result<String> {
+    wallet_custom::get_addresses(wallet_info)
 }
 ////////////////////////////////new/////////////////////////////

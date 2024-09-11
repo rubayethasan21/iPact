@@ -54,195 +54,6 @@ class RustImpl implements Rust {
         argNames: [],
       );
 
-  Future<String> createWalletAccount(
-      {required NetworkInfo networkInfo,
-      required WalletInfo walletInfo,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_network_info(networkInfo);
-    var arg1 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_create_wallet_account(port_, arg0, arg1),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kCreateWalletAccountConstMeta,
-      argValues: [networkInfo, walletInfo],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kCreateWalletAccountConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "create_wallet_account",
-        argNames: ["networkInfo", "walletInfo"],
-      );
-
-  Future<String> getAddresses({required WalletInfo walletInfo, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_get_addresses(port_, arg0),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kGetAddressesConstMeta,
-      argValues: [walletInfo],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kGetAddressesConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "get_addresses",
-        argNames: ["walletInfo"],
-      );
-
-  Future<String> createTransaction(
-      {required WalletInfo walletInfo,
-      required TransactionParams transactionParams,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    var arg1 =
-        _platform.api2wire_box_autoadd_transaction_params(transactionParams);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_create_transaction(port_, arg0, arg1),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kCreateTransactionConstMeta,
-      argValues: [walletInfo, transactionParams],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kCreateTransactionConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "create_transaction",
-        argNames: ["walletInfo", "transactionParams"],
-      );
-
-  Future<String> createAdvancedTransaction(
-      {required WalletInfo walletInfo,
-      required TransactionParams transactionParams,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    var arg1 =
-        _platform.api2wire_box_autoadd_transaction_params(transactionParams);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_create_advanced_transaction(port_, arg0, arg1),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kCreateAdvancedTransactionConstMeta,
-      argValues: [walletInfo, transactionParams],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kCreateAdvancedTransactionConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "create_advanced_transaction",
-        argNames: ["walletInfo", "transactionParams"],
-      );
-
-  Future<String> generateAddress(
-      {required WalletInfo walletInfo, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_generate_address(port_, arg0),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kGenerateAddressConstMeta,
-      argValues: [walletInfo],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kGenerateAddressConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "generate_address",
-        argNames: ["walletInfo"],
-      );
-
-  Future<String> getSentTransactions(
-      {required WalletInfo walletInfo, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_get_sent_transactions(port_, arg0),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kGetSentTransactionsConstMeta,
-      argValues: [walletInfo],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kGetSentTransactionsConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "get_sent_transactions",
-        argNames: ["walletInfo"],
-      );
-
-  Future<String> getReceivedTransactions(
-      {required WalletInfo walletInfo, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_get_received_transactions(port_, arg0),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kGetReceivedTransactionsConstMeta,
-      argValues: [walletInfo],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kGetReceivedTransactionsConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "get_received_transactions",
-        argNames: ["walletInfo"],
-      );
-
-  Future<String> getSingleTransaction(
-      {required WalletInfo walletInfo,
-      required String transactionId,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    var arg1 = _platform.api2wire_String(transactionId);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_get_single_transaction(port_, arg0, arg1),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kGetSingleTransactionConstMeta,
-      argValues: [walletInfo, transactionId],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kGetSingleTransactionConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "get_single_transaction",
-        argNames: ["walletInfo", "transactionId"],
-      );
-
-  Future<String> checkBalance({required WalletInfo walletInfo, dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_check_balance(port_, arg0),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kCheckBalanceConstMeta,
-      argValues: [walletInfo],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kCheckBalanceConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "check_balance",
-        argNames: ["walletInfo"],
-      );
-
   Future<String> requestFunds(
       {required NetworkInfo networkInfo,
       required WalletInfo walletInfo,
@@ -263,49 +74,6 @@ class RustImpl implements Rust {
       const FlutterRustBridgeTaskConstMeta(
         debugName: "request_funds",
         argNames: ["networkInfo", "walletInfo"],
-      );
-
-  Future<String> createDecentralizedIdentifier(
-      {required NetworkInfo networkInfo,
-      required WalletInfo walletInfo,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_box_autoadd_network_info(networkInfo);
-    var arg1 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner
-          .wire_create_decentralized_identifier(port_, arg0, arg1),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: _wire2api_FrbAnyhowException,
-      constMeta: kCreateDecentralizedIdentifierConstMeta,
-      argValues: [networkInfo, walletInfo],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kCreateDecentralizedIdentifierConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "create_decentralized_identifier",
-        argNames: ["networkInfo", "walletInfo"],
-      );
-
-  Future<String> binToHex(
-      {required String val, required int len, dynamic hint}) {
-    var arg0 = _platform.api2wire_String(val);
-    var arg1 = api2wire_usize(len);
-    return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_bin_to_hex(port_, arg0, arg1),
-      parseSuccessData: _wire2api_String,
-      parseErrorData: null,
-      constMeta: kBinToHexConstMeta,
-      argValues: [val, len],
-      hint: hint,
-    ));
-  }
-
-  FlutterRustBridgeTaskConstMeta get kBinToHexConstMeta =>
-      const FlutterRustBridgeTaskConstMeta(
-        debugName: "bin_to_hex",
-        argNames: ["val", "len"],
       );
 
   Future<String> createIotaAccount(
@@ -413,6 +181,24 @@ class RustImpl implements Rust {
         argNames: ["walletInfo"],
       );
 
+  Future<String> getAddresses({required WalletInfo walletInfo, dynamic hint}) {
+    var arg0 = _platform.api2wire_box_autoadd_wallet_info(walletInfo);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_get_addresses(port_, arg0),
+      parseSuccessData: _wire2api_String,
+      parseErrorData: _wire2api_FrbAnyhowException,
+      constMeta: kGetAddressesConstMeta,
+      argValues: [walletInfo],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetAddressesConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_addresses",
+        argNames: ["walletInfo"],
+      );
+
   void dispose() {
     _platform.dispose();
   }
@@ -439,11 +225,6 @@ class RustImpl implements Rust {
 
 @protected
 int api2wire_u8(int raw) {
-  return raw;
-}
-
-@protected
-int api2wire_usize(int raw) {
   return raw;
 }
 

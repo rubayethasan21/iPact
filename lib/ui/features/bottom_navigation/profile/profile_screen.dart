@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Add this import
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,24 +18,28 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileScreenState extends State<ProfileScreen> {
-  final _controller = Get.put(ProfileController());
+  final ProfileController _controller = Get.put(ProfileController());
   late Box<User> userBox;
-  late User data;
+  late User? data; // Use nullable User for safety
 
   @override
   void initState() {
     super.initState();
-    userBox = Hive.box<User>('users');
-
-    if (userBox.isNotEmpty) {
-      data = userBox.values.first;
-      print('--------------userPublicAddress');
-      print(data.userPublicAddress.toString());
-      _controller.userPublicAddress.value = data.userPublicAddress.toString();
-      _controller.userPublicKey.value = data.userPublicKey.toString();
-      _controller.userName.value = data.userName.toString();
-    } else {
-      // empty state
+    // Initialize Hive and load the data safely
+    try {
+      userBox = Hive.box<User>('users');
+      if (userBox.isNotEmpty) {
+        data = userBox.values.first;
+        _controller.userPublicAddress.value = data!.userPublicAddress ?? '';
+        _controller.userPublicKey.value = data!.userPublicKey ?? '';
+        _controller.userName.value = data!.userName ?? '';
+      } else {
+        // Handle empty state if necessary
+        data = null;
+      }
+    } catch (e) {
+      print("Error loading Hive box: $e");
+      data = null;
     }
   }
 
@@ -55,79 +59,52 @@ class ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: appBarMain(title: "Profile".tr, context: context),
       body: SafeArea(
-        child: Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                vSpacer20(),
-                SizedBox(
-                  height: 150,
-                  width: 150,
-                  child: CircleAvatar(
-                    radius: 0,
-                    backgroundColor:
-                    context.theme.dividerColor,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: SvgPicture.asset(
-                        AssetConstants.icProfile,
-                        color: context.theme.primaryColorDark,height: 100,
-                      ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              vSpacer20(),
+              // Profile Avatar
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: CircleAvatar(
+                  backgroundColor: context.theme.dividerColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: SvgPicture.asset(
+                      AssetConstants.icProfile,
+                      color: context.theme.primaryColorDark,
+                      height: 100,
                     ),
                   ),
                 ),
-                Obx((){
-                  return Center(
-                    child: ProfileDetailsCard(
-                      userName: _controller.userName.toString(),
-                      userPublicAddress: _controller.userPublicAddress.toString(),
-                      userPublicKey: _controller.userPublicKey.toString(),
+              ),
+              vSpacer20(),
+              // Using Obx to handle reactive state changes
+              Obx(() {
+                return data != null
+                    ? ProfileDetailsCard(
+                  userName: _controller.userName.value,
+                  userPublicAddress: _controller.userPublicAddress.value,
+                  userPublicKey: _controller.userPublicKey.value,
+                )
+                    : Center(
+                  child: Text(
+                    "No user data available",
+                    style: TextStyle(
+                      color: context.theme.primaryColorDark,
+                      fontSize: 16,
                     ),
-                  );
-                })
-
-                // Stack(
-                //   children: [
-                //     Card(
-                //       elevation: 5,
-                //       color: context.theme.primaryColorLight,
-                //       child: Padding(
-                //         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                //         child: Column(
-                //           children: [
-                //             vSpacer20(),
-                //             const Row(
-                //               mainAxisAlignment: MainAxisAlignment.spaceBetween, // Adjust alignment
-                //               children: [
-                //                 TextAutoPoppins(
-                //                   'User Profile Address:',
-                //                   fontSize: Dimens.fontSizeMid,
-                //                   textAlign: TextAlign.center,
-                //                   maxLines: 3,
-                //                 ),
-                //
-                //               ],
-                //             ),
-                //             TextAutoPoppins(
-                //               _controller.userPublicAddress.toString(),
-                //               fontSize: Dimens.fontSizeMid,
-                //               textAlign: TextAlign.center,
-                //               maxLines: 2,
-                //             ),
-                //             vSpacer30(),
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //     Positioned(top:20,right:20,child:
-                //     IconButton(
-                //       icon: const Icon(Icons.copy,size: 25,),
-                //       onPressed: copyToClipboard,
-                //     ),)
-                //   ],
-                // ),
-              ],
-            ),
+                  ),
+                );
+              }),
+              vSpacer20(),
+              // Copy Button (You can place this wherever needed in the UI)
+              ElevatedButton(
+                onPressed: copyToClipboard,
+                child: const Text('Copy Address'),
+              ),
+            ],
           ),
         ),
       ),

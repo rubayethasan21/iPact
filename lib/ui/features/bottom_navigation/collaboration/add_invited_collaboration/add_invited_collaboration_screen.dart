@@ -73,7 +73,7 @@ class AddInvitedCollaborationScreenState
 
     collaborationBox = Hive.box('collaborations');
     if (collaborationBox.isNotEmpty) {
-      collaborations = collaborationBox.values.first;
+      //collaborations = collaborationBox.values.first;
 
       _controller.userPublicAddress.value = user.userPublicAddress.toString();
       _controller.userPublicKey.value = user.userPublicKey.toString();

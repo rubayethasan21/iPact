@@ -91,8 +91,8 @@ class CollaborationScreenState extends State<CollaborationScreen> {
   }
 
   Future<void> getData() async {
-    Future.delayed(const Duration(seconds: 3), () {
-      _refreshCollaboration();
+    Future.delayed(const Duration(seconds: 3), () async {
+      await _refreshCollaboration();
     });
   }
 

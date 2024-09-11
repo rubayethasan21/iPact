@@ -223,176 +223,6 @@ class RustWire implements FlutterRustBridgeWireBase {
   late final _wire_generate_mnemonic =
       _wire_generate_mnemonicPtr.asFunction<void Function(int)>();
 
-  void wire_create_wallet_account(
-    int port_,
-    ffi.Pointer<wire_NetworkInfo> network_info,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-  ) {
-    return _wire_create_wallet_account(
-      port_,
-      network_info,
-      wallet_info,
-    );
-  }
-
-  late final _wire_create_wallet_accountPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NetworkInfo>,
-              ffi.Pointer<wire_WalletInfo>)>>('wire_create_wallet_account');
-  late final _wire_create_wallet_account =
-      _wire_create_wallet_accountPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NetworkInfo>,
-              ffi.Pointer<wire_WalletInfo>)>();
-
-  void wire_get_addresses(
-    int port_,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-  ) {
-    return _wire_get_addresses(
-      port_,
-      wallet_info,
-    );
-  }
-
-  late final _wire_get_addressesPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64, ffi.Pointer<wire_WalletInfo>)>>('wire_get_addresses');
-  late final _wire_get_addresses = _wire_get_addressesPtr
-      .asFunction<void Function(int, ffi.Pointer<wire_WalletInfo>)>();
-
-  void wire_create_transaction(
-    int port_,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-    ffi.Pointer<wire_TransactionParams> transaction_params,
-  ) {
-    return _wire_create_transaction(
-      port_,
-      wallet_info,
-      transaction_params,
-    );
-  }
-
-  late final _wire_create_transactionPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_WalletInfo>,
-              ffi.Pointer<wire_TransactionParams>)>>('wire_create_transaction');
-  late final _wire_create_transaction = _wire_create_transactionPtr.asFunction<
-      void Function(int, ffi.Pointer<wire_WalletInfo>,
-          ffi.Pointer<wire_TransactionParams>)>();
-
-  void wire_create_advanced_transaction(
-    int port_,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-    ffi.Pointer<wire_TransactionParams> transaction_params,
-  ) {
-    return _wire_create_advanced_transaction(
-      port_,
-      wallet_info,
-      transaction_params,
-    );
-  }
-
-  late final _wire_create_advanced_transactionPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_WalletInfo>,
-                  ffi.Pointer<wire_TransactionParams>)>>(
-      'wire_create_advanced_transaction');
-  late final _wire_create_advanced_transaction =
-      _wire_create_advanced_transactionPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_WalletInfo>,
-              ffi.Pointer<wire_TransactionParams>)>();
-
-  void wire_generate_address(
-    int port_,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-  ) {
-    return _wire_generate_address(
-      port_,
-      wallet_info,
-    );
-  }
-
-  late final _wire_generate_addressPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64,
-              ffi.Pointer<wire_WalletInfo>)>>('wire_generate_address');
-  late final _wire_generate_address = _wire_generate_addressPtr
-      .asFunction<void Function(int, ffi.Pointer<wire_WalletInfo>)>();
-
-  void wire_get_sent_transactions(
-    int port_,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-  ) {
-    return _wire_get_sent_transactions(
-      port_,
-      wallet_info,
-    );
-  }
-
-  late final _wire_get_sent_transactionsPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64,
-              ffi.Pointer<wire_WalletInfo>)>>('wire_get_sent_transactions');
-  late final _wire_get_sent_transactions = _wire_get_sent_transactionsPtr
-      .asFunction<void Function(int, ffi.Pointer<wire_WalletInfo>)>();
-
-  void wire_get_received_transactions(
-    int port_,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-  ) {
-    return _wire_get_received_transactions(
-      port_,
-      wallet_info,
-    );
-  }
-
-  late final _wire_get_received_transactionsPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64,
-              ffi.Pointer<wire_WalletInfo>)>>('wire_get_received_transactions');
-  late final _wire_get_received_transactions =
-      _wire_get_received_transactionsPtr
-          .asFunction<void Function(int, ffi.Pointer<wire_WalletInfo>)>();
-
-  void wire_get_single_transaction(
-    int port_,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-    ffi.Pointer<wire_uint_8_list> transaction_id,
-  ) {
-    return _wire_get_single_transaction(
-      port_,
-      wallet_info,
-      transaction_id,
-    );
-  }
-
-  late final _wire_get_single_transactionPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_WalletInfo>,
-              ffi.Pointer<wire_uint_8_list>)>>('wire_get_single_transaction');
-  late final _wire_get_single_transaction =
-      _wire_get_single_transactionPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_WalletInfo>,
-              ffi.Pointer<wire_uint_8_list>)>();
-
-  void wire_check_balance(
-    int port_,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-  ) {
-    return _wire_check_balance(
-      port_,
-      wallet_info,
-    );
-  }
-
-  late final _wire_check_balancePtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64, ffi.Pointer<wire_WalletInfo>)>>('wire_check_balance');
-  late final _wire_check_balance = _wire_check_balancePtr
-      .asFunction<void Function(int, ffi.Pointer<wire_WalletInfo>)>();
-
   void wire_request_funds(
     int port_,
     ffi.Pointer<wire_NetworkInfo> network_info,
@@ -412,47 +242,6 @@ class RustWire implements FlutterRustBridgeWireBase {
   late final _wire_request_funds = _wire_request_fundsPtr.asFunction<
       void Function(
           int, ffi.Pointer<wire_NetworkInfo>, ffi.Pointer<wire_WalletInfo>)>();
-
-  void wire_create_decentralized_identifier(
-    int port_,
-    ffi.Pointer<wire_NetworkInfo> network_info,
-    ffi.Pointer<wire_WalletInfo> wallet_info,
-  ) {
-    return _wire_create_decentralized_identifier(
-      port_,
-      network_info,
-      wallet_info,
-    );
-  }
-
-  late final _wire_create_decentralized_identifierPtr = _lookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Int64, ffi.Pointer<wire_NetworkInfo>,
-                  ffi.Pointer<wire_WalletInfo>)>>(
-      'wire_create_decentralized_identifier');
-  late final _wire_create_decentralized_identifier =
-      _wire_create_decentralized_identifierPtr.asFunction<
-          void Function(int, ffi.Pointer<wire_NetworkInfo>,
-              ffi.Pointer<wire_WalletInfo>)>();
-
-  void wire_bin_to_hex(
-    int port_,
-    ffi.Pointer<wire_uint_8_list> val,
-    int len,
-  ) {
-    return _wire_bin_to_hex(
-      port_,
-      val,
-      len,
-    );
-  }
-
-  late final _wire_bin_to_hexPtr = _lookup<
-      ffi.NativeFunction<
-          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
-              ffi.UintPtr)>>('wire_bin_to_hex');
-  late final _wire_bin_to_hex = _wire_bin_to_hexPtr
-      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>, int)>();
 
   void wire_create_iota_account(
     int port_,
@@ -548,6 +337,23 @@ class RustWire implements FlutterRustBridgeWireBase {
           ffi.Void Function(
               ffi.Int64, ffi.Pointer<wire_WalletInfo>)>>('wire_get_balance');
   late final _wire_get_balance = _wire_get_balancePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_WalletInfo>)>();
+
+  void wire_get_addresses(
+    int port_,
+    ffi.Pointer<wire_WalletInfo> wallet_info,
+  ) {
+    return _wire_get_addresses(
+      port_,
+      wallet_info,
+    );
+  }
+
+  late final _wire_get_addressesPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64, ffi.Pointer<wire_WalletInfo>)>>('wire_get_addresses');
+  late final _wire_get_addresses = _wire_get_addressesPtr
       .asFunction<void Function(int, ffi.Pointer<wire_WalletInfo>)>();
 
   ffi.Pointer<wire_NetworkInfo> new_box_autoadd_network_info_0() {

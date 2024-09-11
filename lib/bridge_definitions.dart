@@ -19,75 +19,12 @@ abstract class Rust {
 
   FlutterRustBridgeTaskConstMeta get kGenerateMnemonicConstMeta;
 
-  Future<String> createWalletAccount(
-      {required NetworkInfo networkInfo,
-      required WalletInfo walletInfo,
-      dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kCreateWalletAccountConstMeta;
-
-  Future<String> getAddresses({required WalletInfo walletInfo, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kGetAddressesConstMeta;
-
-  Future<String> createTransaction(
-      {required WalletInfo walletInfo,
-      required TransactionParams transactionParams,
-      dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kCreateTransactionConstMeta;
-
-  Future<String> createAdvancedTransaction(
-      {required WalletInfo walletInfo,
-      required TransactionParams transactionParams,
-      dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kCreateAdvancedTransactionConstMeta;
-
-  Future<String> generateAddress(
-      {required WalletInfo walletInfo, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kGenerateAddressConstMeta;
-
-  Future<String> getSentTransactions(
-      {required WalletInfo walletInfo, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kGetSentTransactionsConstMeta;
-
-  Future<String> getReceivedTransactions(
-      {required WalletInfo walletInfo, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kGetReceivedTransactionsConstMeta;
-
-  Future<String> getSingleTransaction(
-      {required WalletInfo walletInfo,
-      required String transactionId,
-      dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kGetSingleTransactionConstMeta;
-
-  Future<String> checkBalance({required WalletInfo walletInfo, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kCheckBalanceConstMeta;
-
   Future<String> requestFunds(
       {required NetworkInfo networkInfo,
       required WalletInfo walletInfo,
       dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kRequestFundsConstMeta;
-
-  Future<String> createDecentralizedIdentifier(
-      {required NetworkInfo networkInfo,
-      required WalletInfo walletInfo,
-      dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kCreateDecentralizedIdentifierConstMeta;
-
-  Future<String> binToHex(
-      {required String val, required int len, dynamic hint});
-
-  FlutterRustBridgeTaskConstMeta get kBinToHexConstMeta;
 
   Future<String> createIotaAccount(
       {required NetworkInfo networkInfo,
@@ -116,6 +53,10 @@ abstract class Rust {
   Future<String> getBalance({required WalletInfo walletInfo, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kGetBalanceConstMeta;
+
+  Future<String> getAddresses({required WalletInfo walletInfo, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetAddressesConstMeta;
 }
 
 class NetworkInfo {

@@ -1,7 +1,7 @@
 name: unify_secret
 description: "A new Flutter project."
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.1+1
+version: 1.0.1+4
 
 environment:
   sdk: '>=3.2.6 <4.0.0'
@@ -60,8 +60,8 @@ dependencies:
 
   # for related file
   file_picker: ^8.0.5
-  open_file: ^3.3.2
-  printing: ^5.12.0
+  open_file: ^3.5.3
+  #printing: ^5.12.0
   pdf: ^3.10.8
   dio: ^5.4.3+1
   archive: ^3.6.1

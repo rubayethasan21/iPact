@@ -20,7 +20,7 @@ import 'package:unify_secret/utils/common_widgets.dart';
 import 'package:unify_secret/utils/dimens.dart';
 import 'package:unify_secret/utils/spacers.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
+//import 'package:printing/printing.dart';
 import 'package:unify_secret/utils/text_util.dart';
 
 class CollaborationDetailsScreen extends StatefulWidget {
