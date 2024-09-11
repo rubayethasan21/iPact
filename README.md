@@ -1,74 +1,83 @@
-# unify_secret
+# iPact: Secure Collaboration and File Sharing Application
 
-A new Flutter project.
+iPact is a secure, privacy-focused collaboration application designed to allow users to create encrypted collaborations and share sensitive files securely. It integrates with the IOTA Shimmer testnet to ensure file immutability through immutable transactions between users.
+
+## Features
+
+- **Secure Profile Creation**: Each user creates a unique profile tied to an IOTA wallet, with a private key securely stored using IOTA Stronghold technology.
+- **Collaboration Creation**: Users can invite others to secure collaborations using invitation links.
+- **Encrypted File Sharing**: Files are encrypted using two layers of encryption, ensuring privacy and confidentiality.
+- **File Immutability Check**: Users can verify the integrity of shared files using the IOTA Tangle to ensure no tampering over time.
+- **Cross-platform Compatibility**: Available on Android with support for future expansion.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+Before setting up iPact locally, ensure you have:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter SDK: [Install Flutter](https://flutter.dev/docs/get-started/install)
+- Dart SDK (included with Flutter)
+- Android Studio or Visual Studio Code for running the app on an emulator or physical device.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+1. Clone the repository from GitHub:
+   ```bash
+   git clone https://github.com/rubayethasan21/iPact.git
+   ```
+
+2. Navigate into the project directory:
+   ```bash
+   cd iPact
+   ```
+
+3. Clean the project to remove any previous builds:
+   ```bash
+   flutter clean
+   ```
+
+4. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
+
+5. Run the project on a simulator or physical device:
+   ```bash
+   flutter run
+   ```
+
+For additional help building this Flutter app, check out the [Flutter Development Documentation](https://docs.flutter.dev/get-started/codelab) and the [IOTA SDK Flutter Guide](https://iota-for-flutter.github.io/tutorial/building-a-comprehensive-app-with-iota-sdk/building-for-android.html).
+
+## Features in Detail
+
+### 1. Collaboration Creation
+- Start a new collaboration by inviting other users using an invitation link.
+- Collaborations allow secure file sharing between trusted participants.
+
+### 2. Secure File Sharing with Encryption
+- Files added to a collaboration undergo two-layer encryption:
+    - **Symmetric Encryption (AES)** for file confidentiality.
+    - **Asymmetric Encryption (RSA)** using the recipient's public key.
+- Files are shared via external platforms like email or messaging apps.
+
+### 3. Decrypting Files on the Receiver's Side
+- Once the encrypted files are received, the receiver decrypts the outer layer using their private key and requests the symmetric key to decrypt the file contents.
+
+### 4. File Immutability Verification
+- Use the immutability check feature to confirm that shared files have not been tampered with over time. The app compares the file’s hash with the transaction stored on the IOTA Tangle.
+
+## Helpful Resources
+
+- Flutter Development: [Flutter Documentation](https://flutter.dev/docs)
+- IOTA SDK for Flutter: [IOTA SDK Flutter Guide](https://iota-for-flutter.github.io/tutorial/building-a-comprehensive-app-with-iota-sdk/building-for-android.html)
 
 
 
-## Generate model class by code
-
-Run this command :
-dart run build_runner build
-
-If any conflicts Run this command :
-dart run build_runner build --delete-conflicting-outputs
 
 
-## But before that, you will have to import the generator.
-
-Example: If your file name is project_database.dart, then in that file :
-
-Import,
-
-import 'package:hive/hive.dart';
-part 'project_database.g.dart';
-//this will show an error initially but if
-// you run the above command, it will generate the generator file
 
 
-[//]: # (      if&#40;iOTATransactionId.isEmpty&#41;)
 
-[//]: # (        {)
 
-[//]: # (          Column&#40;)
 
-[//]: # (            mainAxisAlignment: MainAxisAlignment.center,)
-
-[//]: # (            crossAxisAlignment: CrossAxisAlignment.center,)
-
-[//]: # (            children: [)
-
-[//]: # (              CircularProgressIndicator&#40;color: context.theme.focusColor&#41;,)
-
-[//]: # (              vSpacer10&#40;&#41;,)
-
-[//]: # (              const TextAutoMetropolis&#40;)
-
-[//]: # (                "Please wait !.",)
-
-[//]: # (                maxLines: 10,)
-
-[//]: # (                fontSize: Dimens.fontSizeMid,)
-
-[//]: # (                textAlign: TextAlign.center,)
-
-[//]: # (              &#41;)
-
-[//]: # (            ],)
-
-[//]: # (          &#41;;)
-
-[//]: # ()
-[//]: # (        }else )
