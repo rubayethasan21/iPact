@@ -130,16 +130,16 @@ class DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
             (collab) => collab.collaborationId == widget.collaborationId,
       );
 
-      print('collaborations');
-      print(collaborations.collaborationId);
-      print(collaborations.senderIOTAAddress);
-      print(collaborations.receiverIOTAAddress);
+      //print('collaborations');
+      //print(collaborations.collaborationId);
+      //print(collaborations.senderIOTAAddress);
+      //print(collaborations.receiverIOTAAddress);
 
     } else {
       // empty state
     }
 
-    print('here');
+    //print('here');
     _receiveAsymmetricDecryptionConfirmation();
     _receiveCryptographicKey();
   }
@@ -156,8 +156,8 @@ class DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
       lastAddress: '',
     ));
 
-    print('receivedText');
-    print(receivedText);
+    //print('receivedText');
+    //print(receivedText);
 
     // Parse the JSON string
     List<dynamic> jsonList = jsonDecode(receivedText);
@@ -218,8 +218,8 @@ class DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
         iPactWalletFilePathValue = await iPactWalletFilePath();
         var transactionValue = await _readCryptographicKeyFromTangle(
             widget.collaborationId.toString(), widget.fileId.toString());
-        print("_receiveCryptographicKey");
-        print(transactionValue);
+        //print("_receiveCryptographicKey");
+        //print(transactionValue);
 
         if (transactionValue != null) {
           var cryptographicKey = transactionValue['cryptographicKey'];

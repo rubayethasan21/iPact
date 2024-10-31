@@ -99,11 +99,11 @@ class LogInScreenState extends State<LogInScreen> {
                                         //
                                         // debugPrint('<<<<<_globalUserName>>>>> $_globalUserName');
 
-                                        debugPrint('------------------============== userPublicAddress');
-                                        debugPrint(userBox.name);
-                                        debugPrint(user.userName.toString());
-                                        debugPrint(user.userPin.toString());
-                                        debugPrint(user.userPublicAddress.toString());
+                                        //debugPrint('------------------============== userPublicAddress');
+                                        //debugPrint(userBox.name);
+                                        //debugPrint(user.userName.toString());
+                                        //debugPrint(user.userPin.toString());
+                                        //debugPrint(user.userPublicAddress.toString());
 
                                         Get.offAll(() => LoginWithPin(user: user));
                                         // Get.offAll(() => LoginWithPin(userName: user.userName.toString(), user: user));
@@ -182,10 +182,10 @@ class _LoginWithPinState extends State<LoginWithPin> {
     final name = widget.user.userName.toString();
     final pin = widget.user.userPin.toString();
     // final pin = userBox.get('userPin').toString();
-    debugPrint('----------------- userName -----------------  ');
-    debugPrint(name);
-    debugPrint('----------------- userPin -----------------  ');
-    debugPrint(pin);
+    //debugPrint('----------------- userName -----------------  ');
+    //debugPrint(name);
+    //debugPrint('----------------- userPin -----------------  ');
+    //debugPrint(pin);
     // debugPrint('-----------------userPublicAddress');
     // debugPrint(userBox.get('userPublicAddress').toString());
     // debugPrint(userBox.get('userPin').toString());

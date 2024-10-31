@@ -75,8 +75,8 @@ class _ProfileSuccessfulScreenState extends State<ProfileSuccessfulScreen> {
   Future<void> _ownPublicKey() async {
 
     _controller.ownPublicKey.value = await _encryptionControllerFinal.getPublicKeyAsString();
-    print('-------_ownPublicKey');
-    print(_controller.ownPublicKey.value.toString());
+    //print('-------_ownPublicKey');
+    //print(_controller.ownPublicKey.value.toString());
   }
 
 
@@ -96,7 +96,7 @@ class _ProfileSuccessfulScreenState extends State<ProfileSuccessfulScreen> {
           lastAddress: _controller.publicAddress.value,
         )
     );
-    debugPrint(receivedText);
+    //debugPrint(receivedText);
   }
 
   Future<void> createIotaAccount() async {
@@ -114,14 +114,14 @@ class _ProfileSuccessfulScreenState extends State<ProfileSuccessfulScreen> {
     );
 
     try {
-      debugPrint('<<<<<Call Rust API To Create Wallet Account>>>>>');
-      debugPrint(networkInfo.nodeUrl);
-      debugPrint(networkInfo.faucetUrl);
-      debugPrint(walletInfo.alias);
-      debugPrint(walletInfo.mnemonic);
-      debugPrint(walletInfo.strongholdPassword);
-      debugPrint(walletInfo.strongholdFilepath);
-      debugPrint(walletInfo.lastAddress);
+      //debugPrint('<<<<<Call Rust API To Create Wallet Account>>>>>');
+      //debugPrint(networkInfo.nodeUrl);
+      //debugPrint(networkInfo.faucetUrl);
+      //debugPrint(walletInfo.alias);
+      //debugPrint(walletInfo.mnemonic);
+      //debugPrint(walletInfo.strongholdPassword);
+      //debugPrint(walletInfo.strongholdFilepath);
+      //debugPrint(walletInfo.lastAddress);
 
       // _controller.publicAddress.value = ' ';
 
@@ -130,8 +130,8 @@ class _ProfileSuccessfulScreenState extends State<ProfileSuccessfulScreen> {
 
       if (mounted) {
         _controller.publicAddress.value = createWalletResponseText;
-        debugPrint('<<<<<Account Creation Successful. Public Address: >>>>>');
-        debugPrint(_controller.publicAddress.value);
+        //debugPrint('<<<<<Account Creation Successful. Public Address: >>>>>');
+        //debugPrint(_controller.publicAddress.value);
 /*
         /// For adding data in local hive db
         _controller.publicAddress.value.isNotEmpty ? submitData() : null;*/
@@ -203,7 +203,7 @@ class _ProfileSuccessfulScreenState extends State<ProfileSuccessfulScreen> {
         Directory('${appSupportDir.path}/');
     setState(() {
       _strongholdFilePath = appSupportDirStrongholdFolder.path + "ipact_wallet/" ;
-      debugPrint('<<<<<Stronghold File Path>>>>> $_strongholdFilePath');
+      //debugPrint('<<<<<Stronghold File Path>>>>> $_strongholdFilePath');
       //_callFfiCreateWalletAccount();
       createIotaAccount();
     });
@@ -302,12 +302,12 @@ class _ProfileSuccessfulScreenState extends State<ProfileSuccessfulScreen> {
                                               userPublicKey: _controller.ownPublicKey.value.toString())
                                           );
 
-                                          debugPrint(widget.userName);
-                                          debugPrint('------------------============== userPublicAddress');
-                                          debugPrint(userBox.name);
-                                          debugPrint(userBox.get('userPublicAddress').toString());
-                                          debugPrint(userBox.get('userPin').toString());
-                                          debugPrint(userBox.get('userName').toString());
+                                          //debugPrint(widget.userName);
+                                          //debugPrint('------------------============== userPublicAddress');
+                                          //debugPrint(userBox.name);
+                                          //debugPrint(userBox.get('userPublicAddress').toString());
+                                          //debugPrint(userBox.get('userPin').toString());
+                                          //debugPrint(userBox.get('userName').toString());
 
 
                                           // GlobalVariables.globalCurrentUser = widget.userName.toString();

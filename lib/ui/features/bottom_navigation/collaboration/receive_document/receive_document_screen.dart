@@ -122,7 +122,7 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
       );
 
       try {
-        print(filePath);
+        //print(filePath);
         int startIndex = filePath.indexOf('/data');
         filePath = filePath.substring(startIndex);
         // Remove trailing single quote if present
@@ -130,8 +130,8 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
           filePath = filePath.substring(0, filePath.length - 1);
         }
 
-        print('filePath');
-        print(filePath);
+        //print('filePath');
+        //print(filePath);
 
         var receivedEncryptedFiles = await _unzipFile(filePath);
 
@@ -141,13 +141,13 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
           for (var collaboration in collaborationBox.values) {
             if (collaboration.collaborationId ==
                 _controller.collaborationId.toString()) {
-              print('Found collaboration: ${collaboration.collaborationId}');
+              //print('Found collaboration: ${collaboration.collaborationId}');
               exactCollaboration = collaboration;
               break;
             }
           }
-          print("exactCollaboration");
-          print(exactCollaboration);
+          //print("exactCollaboration");
+          //print(exactCollaboration);
 
           String collaborationPartnerAddress;
           if (user.userPublicAddress == exactCollaboration!.senderIOTAAddress) {
@@ -163,8 +163,8 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
           var asymmetricDecryptedFilesHash = [];
 
           for (var receivedEncryptedFile in receivedEncryptedFiles) {
-            print('receivedEncryptedFile.path');
-            print(receivedEncryptedFile.path);
+            //print('receivedEncryptedFile.path');
+            //print(receivedEncryptedFile.path);
             var receivedEncryptedFilePath = receivedEncryptedFile.path;
 
             var asymmetricDecryptedFilePath =
@@ -175,20 +175,20 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
                         filePath: receivedEncryptedFilePath.toString(),
                         fileCount: fileCount.toString());
 
-            print("_controller.collaborationId.toString()");
-            print(_controller.collaborationId.toString());
-            print("_controller.fileId.toString()");
-            print(_controller.fileId.toString());
+            //print("_controller.collaborationId.toString()");
+            //print(_controller.collaborationId.toString());
+            //print("_controller.fileId.toString()");
+            //print(_controller.fileId.toString());
 
             var asymmetricDecryptedFileHash = await objectInstance
                 .createHashFromFile(asymmetricDecryptedFilePath.toString());
-            print("asymmetricDecryptedFileHash");
-            print(asymmetricDecryptedFileHash);
+            //print("asymmetricDecryptedFileHash");
+            //print(asymmetricDecryptedFileHash);
 
             var readFileHashFromTangleValue = await readFileHashFromTangle(
                 asymmetricDecryptedFileHash.toString());
-            print("readFileHashFromTangleValue");
-            print(readFileHashFromTangleValue);
+            //print("readFileHashFromTangleValue");
+            //print(readFileHashFromTangleValue);
 
             if (readFileHashFromTangleValue!.isNotEmpty) {
               asymmetricDecryptedFilesPath
@@ -220,8 +220,8 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
               await writeFileHashToTangle(
                   asymmetricDecryptionConfirmationTransactionParams);
 
-          print(asymmetricDecryptFileHashTransactionId);
-          print("asymmetricDecryptFileHashTransactionId");
+          //print(asymmetricDecryptFileHashTransactionId);
+          //print("asymmetricDecryptFileHashTransactionId");
 
 
           addDocumentAndSaveToHive(
@@ -245,7 +245,7 @@ class ReceiveDocumentScreenState extends State<ReceiveDocumentScreen> {
           Navigator.pop(context); // Go back to the previous screen
         }
       } catch (e) {
-        print(e.toString());
+        //print(e.toString());
         Get.snackbar('Error', e.toString());
         Get.back(); // Close the dialog
       }

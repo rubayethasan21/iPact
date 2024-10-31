@@ -67,7 +67,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       // Ensure the app_data directory exists
       if (!appDataDir.existsSync()) {
         appDataDir.createSync(recursive: true);
-        print('Created app_data directory: $appDataDirPath');
+        //print('Created app_data directory: $appDataDirPath');
       }
 
       // 1. Read the ZIP file as bytes
@@ -88,25 +88,25 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         final normalizedFileName = p.normalize(fileName); // Normalize for path comparison
 
         // Print statements for debugging
-        print('appDataDirPath: $appDataDirPath');
-        print('normalizedFileName: $normalizedFileName');
+        //print('appDataDirPath: $appDataDirPath');
+        //print('normalizedFileName: $normalizedFileName');
 
         // Construct the file path inside app_data directory
         final filePath = p.join(appDataDirPath, normalizedFileName);
 
         // Print the resulting file path for debugging
-        print('filePath to be extracted: $filePath');
+        //print('filePath to be extracted: $filePath');
 
         if (file.isFile) {
           // Write the file data to the target directory
           final outputFile = File(filePath);
           outputFile.createSync(recursive: true);  // Ensure directories are created before writing the file
           outputFile.writeAsBytesSync(file.content as List<int>);
-          print('File extracted: $filePath');
+          //print('File extracted: $filePath');
         } else {
           // If it's a directory, ensure the directory exists
           Directory(filePath).createSync(recursive: true);
-          print('Directory created or exists: $filePath');
+          //print('Directory created or exists: $filePath');
         }
       }
 
@@ -145,14 +145,14 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       File zipFile = File(zipFilePath);
       if (zipFile.existsSync()) {
         zipFile.deleteSync();  // Delete the ZIP file
-        print('ZIP file deleted: $zipFilePath');
+        //print('ZIP file deleted: $zipFilePath');
       }
 
       // 8. Delete the app_data directory after all tasks are complete
       await _deleteDirectory(appDataDirPath);
-      print('app_data directory deleted: $appDataDirPath');
+      //print('app_data directory deleted: $appDataDirPath');
 
-      print('Extraction, moving, and deletion of directories completed successfully.');
+      //print('Extraction, moving, and deletion of directories completed successfully.');
 
       SystemNavigator.pop();
     } catch (e) {
@@ -169,7 +169,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         // Check if the destination directory already exists, if so, delete it first
         if (destinationDir.existsSync()) {
           destinationDir.deleteSync(recursive: true);
-          print('Deleted existing destination directory: $destinationPath');
+          //print('Deleted existing destination directory: $destinationPath');
         }
 
         // Ensure the destination directory exists
@@ -182,18 +182,18 @@ class WelcomeScreenState extends State<WelcomeScreen> {
             File newFile = File(newPath);
             newFile.createSync(recursive: true);
             await entity.copy(newPath);
-            print('Moved file: ${entity.path} to $newPath');
+            //print('Moved file: ${entity.path} to $newPath');
           }
         }
 
         // After moving, delete the original directory
         sourceDir.deleteSync(recursive: true);
-        print('Deleted original directory: $sourcePath');
+        //print('Deleted original directory: $sourcePath');
       } else {
-        print('Source directory does not exist: $sourcePath');
+        //print('Source directory does not exist: $sourcePath');
       }
     } catch (e) {
-      print('Error during moving directory: $e');
+      //print('Error during moving directory: $e');
     }
   }
 
@@ -206,18 +206,18 @@ class WelcomeScreenState extends State<WelcomeScreen> {
         // Check if the destination file already exists, if so, delete it first
         if (destinationFile.existsSync()) {
           destinationFile.deleteSync();
-          print('Deleted existing destination file: $destinationPath');
+          //'Deleted existing destination file: $destinationPath');
         }
 
         destinationFile.createSync(recursive: true);  // Ensure the directory structure exists
         await sourceFile.copy(destinationFile.path);
-        print('Moved file: $sourcePath to $destinationPath');
+        //print('Moved file: $sourcePath to $destinationPath');
         sourceFile.deleteSync(); // Delete the source file after copying
       } else {
         print('Source file does not exist: $sourcePath');
       }
     } catch (e) {
-      print('Error moving file: $e');
+      //print('Error moving file: $e');
     }
   }
 
@@ -226,7 +226,7 @@ class WelcomeScreenState extends State<WelcomeScreen> {
       Directory dir = Directory(directoryPath);
       if (dir.existsSync()) {
         dir.deleteSync(recursive: true);
-        print('Deleted directory: $directoryPath');
+        //print('Deleted directory: $directoryPath');
       } else {
         print('Directory does not exist: $directoryPath');
       }

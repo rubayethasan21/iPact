@@ -24,7 +24,7 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
 
-    print('---------PRM-----PRM');
+    //print('---------PRM-----PRM');
     _handleInitialUri();
 
   }
@@ -32,7 +32,7 @@ class SplashScreenState extends State<SplashScreen> {
 
   void _handleInitialUri() async {
     final initialUri = await getInitialUri();
-    print(initialUri);
+    //print(initialUri);
     if (initialUri != null) {
       _handleDeepLink(initialUri);
     }
@@ -45,16 +45,16 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   void _handleDeepLink(Uri uri) {
-    print('Received deep link: ${uri.toString()}');
+    //print('Received deep link: ${uri.toString()}');
     final queryParams = uri.queryParameters;
-    print('Custom parameters: $queryParams');
+    //print('Custom parameters: $queryParams');
     String? prm1 = queryParams['prm1'];
     String? prm2 = queryParams['prm2'];
     String? prm3 = queryParams['prm3'];
-    print('PRM');
-    print(prm1.toString());
-    print(prm2.toString());
-    print(prm3.toString());
+    //print('PRM');
+    //print(prm1.toString());
+    //print(prm2.toString());
+    //print(prm3.toString());
     if (prm1 != null && prm2 != null && prm3 != null) {
       // Save the values to Hive DB
       invitePartnerAndSaveToHive(
